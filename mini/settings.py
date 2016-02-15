@@ -31,14 +31,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'QA',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'login',
+    'crispy_forms',
+    'QA',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -83,8 +83,7 @@ DATABASES = {
     }
 }
 
-
-# Internationalization
+ # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
@@ -100,9 +99,37 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
-
+#static url is for displaying to user from where static files are taken
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR,"static","static_root")
 # REGISTRATION_OPEN = True 
 # ACCOUNT_ACTIVATION_DAYS = 7  
 # REGISTRATION_AUTO_LOGIN = True 
 # LOGIN_URL = '/accounts/login/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR,"static","our_static"),
+
+)
+# profile pic upload etc
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,"static","media_root")
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 9,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block question_container %}
+{% for i in question %}
+<div class="container">
+	<div class="jumbotron">
+ <a class="lead" href="{{i.pk}}">{{i.question_text}}<br></a>
+</div>
+</div>
+{% endfor %}
+{% endblock %}
+{% block login %}
+<div class="col-md-12 ">
+
+  <form method='POST' action=''>
+  {% csrf_token %}
+        {{ form | crispy }}
+        <input class='btn btn-primary' type='submit' value='Add Answer'/>
+        <input type="hidden" name="next" value="{{ next|escape }}" />
+
+  </form>
+</div>
+{% endblock %}
