@@ -21,3 +21,12 @@
   </form>
 </div>
 {% endblock %}
+{% block answer_container %}
+{% for i in answer %}
+<div class="container">
+	<div class="jumbotron">
+ {{i.answer_text}}<br>
+</div>
+</div>
+{% endfor %}
+{% endblock %}
