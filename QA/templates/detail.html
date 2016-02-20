@@ -14,9 +14,9 @@
 
   <form method='POST' action=''>
   {% csrf_token %}
-        {{ form | crispy }}
-        <input class='btn btn-primary' type='submit' value='Add Answer'/>
-        <input type="hidden" name="next" value="{{ next|escape }}" />
+		{{ form | crispy }}
+		<input class='btn btn-primary' name='submit'type='submit' value='Add Answer'/>
+		<input type="hidden" name="next" value="{{ next|escape }}" />
 
   </form>
 </div>
@@ -25,8 +25,19 @@
 {% for i in answer %}
 <div class="container">
 	<div class="jumbotron">
- {{i.answer_text}}<br>
-</div>
-</div>
+			<div class="col-md-1"> 
+			{{i.author}} </div>
+			<div class="col-md-9">
+			{{i.answer_text}}<br>
+ 			</div>
+ 			  <form method='POST' action=''>
+ 			    {% csrf_token %}
+
+        <input class='btn btn-primary' type='submit' value='upvote'/>
+        <input type="hidden" name="answer_id" value="{{i.pk}}" />
+
+  </form>
+		</div> 
+		</div>
 {% endfor %}
 {% endblock %}

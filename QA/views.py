@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import add_Question_Form, add_Answer_Form, UserCreationForm, AuthenticationForm# RegistrationForm
-from .models import Question, Answer
+from .models import Question, Answer, Upvote
 from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render_to_response
 from django.contrib import auth
@@ -68,14 +68,24 @@ def detail(request, question_id):
 	ques = Question.objects.get(pk=question_id)
 	question = Question.objects.filter(pk=question_id) #list obtained for iteration in template
 	title = "Question is "
+	author = request.user
 	form = add_Answer_Form(request.POST)
-	if request.method == 'POST':
+	if request.method == 'POST' and request.POST.get("submit","") == "":
+		answer_id = request.POST.get("answer_id","")
+		answer = Answer.objects.get(pk=answer_id)
+		User = request.user
+		vote = Upvote(upvoted_user=User,answer=answer)
+		vote.save()
+		return HttpResponseRedirect('/write/%s' % str(question_id))
+	if request.method == 'POST' and request.POST.get("submit","") != "":
 		form = add_Answer_Form(data=request.POST)
 		if form.is_valid():
-			ans = Answer(answer_text=form.clean_text(),question=ques)
+			ans = Answer(answer_text=form.clean_text(),question=ques,author=author)
 			ans.save()
 			return HttpResponseRedirect('/write/%s' % str(question_id))
 	else:
 		form = add_Answer_Form()
 		return render(request, 'detail.html', {"template_title":title,"answer":answer,'form':form,'question': question})
 
+# def vote(request, answer_id):
+# 	print answer_id

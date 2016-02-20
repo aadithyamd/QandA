@@ -12,5 +12,8 @@ class AnswerAdmin(admin.ModelAdmin):
 	#form = add_Question
 	class Meta:
 		model = add_Answer_Form
+	def save_model(self, request, obj, form, change):
+		obj.user = request.user
+		obj.save()
 admin.site.register(Question,QuestionAdmin)
 admin.site.register(Answer,AnswerAdmin)
