@@ -8,7 +8,7 @@ class QuestionAdmin(admin.ModelAdmin):
 	class Meta:
 		model = add_Question_Form
 class AnswerAdmin(admin.ModelAdmin):
-	list_display = ["__unicode__","question","timestamp"]
+	list_display = ["__unicode__","question","timestamp","upvotes"]
 	#form = add_Question
 	class Meta:
 		model = add_Answer_Form

@@ -74,7 +74,8 @@ def detail(request, question_id):
 	title = "Question is "
 	author = request.user
 	form = add_Answer_Form(request.POST)
-	if request.method == 'POST' and request.POST.get("submit","") == "":
+	# upvote submission
+	if request.method == 'POST' and request.POST.get("submit","") == "": ############
 		answer_id = request.POST.get("answer_id","")
 		answer = Answer.objects.get(pk=answer_id)
 		User = request.user
@@ -82,9 +83,11 @@ def detail(request, question_id):
 			print "already exists"
 		else:
 			vote = Upvote(upvoted_user=User,answer=answer)
+			answer.upvotes+=1
+			answer.save()
 			vote.save()
 		return HttpResponseRedirect('/write/%s' % str(question_id))
-
+		# answer submission
 	if request.method == 'POST' and request.POST.get("submit","") != "":
 		form = add_Answer_Form(data=request.POST)
 		if form.is_valid():
