@@ -65,8 +65,12 @@ def listquestions(request):
 @login_required
 def detail(request, question_id):
 	answer = Answer.objects.filter(question = question_id)
-	ques = Question.objects.get(pk=question_id)
+	ques = Question.objects.get(pk=question_id) 
 	question = Question.objects.filter(pk=question_id) #list obtained for iteration in template
+	current_users_upvoted_content = Upvote.objects.filter(upvoted_user=request.user)
+	current_users_upvoted_answers = []
+	for i in current_users_upvoted_content:
+		current_users_upvoted_answers.append(i.answer)
 	title = "Question is "
 	author = request.user
 	form = add_Answer_Form(request.POST)
@@ -74,9 +78,13 @@ def detail(request, question_id):
 		answer_id = request.POST.get("answer_id","")
 		answer = Answer.objects.get(pk=answer_id)
 		User = request.user
-		vote = Upvote(upvoted_user=User,answer=answer)
-		vote.save()
+		if Upvote.objects.filter(upvoted_user=User,answer=answer).exists():
+			print "already exists"
+		else:
+			vote = Upvote(upvoted_user=User,answer=answer)
+			vote.save()
 		return HttpResponseRedirect('/write/%s' % str(question_id))
+
 	if request.method == 'POST' and request.POST.get("submit","") != "":
 		form = add_Answer_Form(data=request.POST)
 		if form.is_valid():
@@ -85,7 +93,8 @@ def detail(request, question_id):
 			return HttpResponseRedirect('/write/%s' % str(question_id))
 	else:
 		form = add_Answer_Form()
-		return render(request, 'detail.html', {"template_title":title,"answer":answer,'form':form,'question': question})
+		return render(request, 'detail.html', {"template_title":title,"answer":answer,
+			'form':form,'question': question,'check_upvoted_already': current_users_upvoted_answers })
 
 # def vote(request, answer_id):
 # 	print answer_id

@@ -13,11 +13,14 @@ class Answer(models.Model):
 	answer_text = models.CharField(max_length=200, blank=True, null=True)
 	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
 	question = models.ForeignKey(Question)
-	author = models.ForeignKey(User, default=1)
+	author = models.ForeignKey(User)
+	upvotes = models.IntegerField(default=0)
+
 	def __unicode__(self): 
 		return self.answer_text
 
 class Upvote(models.Model):
 	upvoted_user = models.ForeignKey(User, default=1)
 	answer = models.ForeignKey(Answer, default=1)
-	
+	# def __unicode__(self): 
+	# 	return self.answer

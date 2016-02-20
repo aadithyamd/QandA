@@ -32,10 +32,12 @@
  			</div>
  			  <form method='POST' action=''>
  			    {% csrf_token %}
-
-        <input class='btn btn-primary' type='submit' value='upvote'/>
+ 		{% if i in check_upvoted_already  %}
+  		<button type="button" class="btn btn-default btn-sm disabled ">Upvote</button>
+ 		{% else %}
+        <input class='btn btn-danger btn-sm' type='submit' value='upvote'/>
         <input type="hidden" name="answer_id" value="{{i.pk}}" />
-
+        {% endif %}
   </form>
 		</div> 
 		</div>

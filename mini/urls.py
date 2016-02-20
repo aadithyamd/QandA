@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^accounts/logout/$', logout),
     url(r'^register/$','QA.views.register_view' ,name='register'),
     url(r'^write/(?P<question_id>[0-9]*)$','QA.views.detail' ,name='question_id'), ##
-    
+    url(r'^logout/$','QA.views.logout_view', name='logout'),
     # url(r'^accounts/', include('registration.backends.simple.urls')), # not sure
 	# url(r'^$', 'django.contrib.auth.views.login'),
     # url(r'^logout/$', logout_page),

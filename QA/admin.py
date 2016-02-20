@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Question, Answer
+from .models import Question, Answer, Upvote
 from .forms import add_Question_Form, add_Answer_Form
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -15,5 +15,9 @@ class AnswerAdmin(admin.ModelAdmin):
 	def save_model(self, request, obj, form, change):
 		obj.user = request.user
 		obj.save()
+class UpvoteAdmin(admin.ModelAdmin):
+	list_display = ["answer","upvoted_user"]
+
 admin.site.register(Question,QuestionAdmin)
 admin.site.register(Answer,AnswerAdmin)
+admin.site.register(Upvote,UpvoteAdmin)
