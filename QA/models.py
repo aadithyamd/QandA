@@ -22,5 +22,14 @@ class Answer(models.Model):
 class Upvote(models.Model):
 	upvoted_user = models.ForeignKey(User, default=1)
 	answer = models.ForeignKey(Answer, default=1)
-	# def __unicode__(self): 
-	# 	return self.answer
+
+from django.db.models.signals import post_migrate
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth import models as auth_models
+from django.contrib.auth.models import Permission
+
+# custom user related permissions
+def add_user_permissions(sender, **kwargs):
+    ct = ContentType.objects.get(app_label='auth', model='user')
+    perm, created = Permission.objects.get_or_create(codename='can_verify', name='Can Verify Posts', content_type=ct)
+post_migrate.connect(add_user_permissions, sender=auth_models)

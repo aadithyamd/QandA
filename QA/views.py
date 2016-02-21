@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import Permission
 
 def home(request):
 	location = "/"
@@ -28,9 +29,10 @@ def home(request):
 
 def register_view(request):
 	if request.method == 'POST':
-		#if user.
 		form = UserCreationForm(data=request.POST)
 		if form.is_valid():
+			# permission = Permission.objects.get(name='Can view poll')
+			# user.user_permissions.add(permission)
 			user = form.save()
 			return HttpResponseRedirect('/')
 	else:
