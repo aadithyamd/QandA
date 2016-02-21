@@ -15,19 +15,28 @@
   <form method='POST' action=''>
   {% csrf_token %}
 		{{ form | crispy }}
-		<input class='btn btn-primary' name='submit' type='submit' value='Add Answer'/>
+		<input class='btn btn-primary' name='submit'type='submit' value='Add Answer'/>
+		<input type="hidden" name="next" value="{{ next|escape }}" />
+
   </form>
 </div>
 {% endblock %}
 {% block answer_container %}
 {% for i in answer %}
+
 <div class="container">
 	<div class="jumbotron">
-			<div class="col-md-1"> 
-			{{i.author}} </div>
-			<div class="col-md-9">
-			{{i.answer_text}}<br>
+
+		<div class="col-md-1"> 
+			{{i.author}} 
+<div class="btn-group">
+  <input class="btn btn-sm btn-success" type='submit' value='verify' ></input>
+</div>
+</div>
+			<div class="col-md-9 text-justify">
+			{{i.answer_text}}
  			</div>
+      <div class="col-md-2 ">
  			  <form method='POST' action=''>
  			    {% csrf_token %}
  		{% if i in check_upvoted_already  %}
@@ -42,6 +51,7 @@
          <button class="btn btn-danger btn-sm disabled">{{i.upvotes}}</button>
     </div>
         {% endif %}
+        </div>
   </form>
 		</div> 
 		</div>

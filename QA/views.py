@@ -75,9 +75,10 @@ def detail(request, question_id):
 		current_users_upvoted_answers.append(i.answer)
 	title = "Question is "
 	author = request.user
-	form = add_Answer_Form(request.POST)
+	print request.POST
 	# upvote submission
-	if request.method == 'POST' and request.POST.get("submit","") == "": ############
+	if request.method == 'POST' and request.POST.get("submit","") == "upvote": ############
+		form = add_Answer_Form(request.POST)
 		answer_id = request.POST.get("answer_id","")
 		answer = Answer.objects.get(pk=answer_id)
 		User = request.user
@@ -90,15 +91,20 @@ def detail(request, question_id):
 			vote.save()
 		return HttpResponseRedirect('/write/%s' % str(question_id))
 		# answer submission
-	if request.method == 'POST' and request.POST.get("submit","") != "":
+	if request.method == 'POST' and request.POST.get("submit","") == "Add Answer":
 		form = add_Answer_Form(data=request.POST)
 		if form.is_valid():
 			ans = Answer(answer_text=form.clean_text(),question=ques,author=author)
 			ans.save()
 			return HttpResponseRedirect('/write/%s' % str(question_id))
-	else:
-		form = add_Answer_Form()
-		return render(request, 'detail.html', {"template_title":title,"answer":answer,
+	elif request.user.is_authenticated():
+		if request.user.is_staff:
+			form = add_Answer_Form()
+			return render(request, 'staff_detail.html', {"template_title":title,"answer":answer,
+			'form':form,'question': question,'check_upvoted_already': current_users_upvoted_answers })
+			
+	form = add_Answer_Form()
+	return render(request, 'detail.html', {"template_title":title,"answer":answer,
 			'form':form,'question': question,'check_upvoted_already': current_users_upvoted_answers })
 
 # def vote(request, answer_id):
