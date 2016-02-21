@@ -4,15 +4,15 @@
 {% block main_content %}
 
     <div class="col-md-8">
-      <h2>Register</h2>
-      <p>Username must contain alphanumeric characters#.
+      <h3>Register</h3>
+      <p class="lead">Username must contain alphanumeric characters.<br>
 		 Password shouldn't be regular words and must have 8 characters
 		</p>
    </div>
 {% endblock %}
 
 {% block login %}
-<div class="col-md-4 ">
+<div class="col-md-4 small">
   <form method='POST' action=''>
   {% csrf_token %}
         {{ form | crispy }}

@@ -15,6 +15,7 @@ class Answer(models.Model):
 	question = models.ForeignKey(Question)
 	author = models.ForeignKey(User)
 	upvotes = models.IntegerField(default=0)
+
 	def __unicode__(self): 
 		return self.answer_text
 

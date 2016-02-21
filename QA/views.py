@@ -2,11 +2,11 @@ from django.shortcuts import render
 from .forms import add_Question_Form, add_Answer_Form, UserCreationForm, AuthenticationForm# RegistrationForm
 from .models import Question, Answer, Upvote
 from django.views.decorators.csrf import csrf_protect
-from django.shortcuts import render_to_response
 from django.contrib import auth
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 
 def home(request):
 	location = "/"
