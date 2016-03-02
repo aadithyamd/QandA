@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import add_Question_Form, add_Answer_Form, UserCreationForm, AuthenticationForm# RegistrationForm
-from .models import Question, Answer, Upvote
+from .models import Question, Answer, Upvote, Categories
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import auth
 from django.http import HttpResponseRedirect
@@ -8,8 +8,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import Permission
-
+@login_required() 
 def home(request):
+	if request.user.is_authenticated():
+		return HttpResponseRedirect("/write")
 	location = "/"
 	form = AuthenticationForm(request.POST)
 	context ={  
@@ -51,6 +53,13 @@ def listquestions(request):
 	title = "Put your question here"
 	if request.method == 'POST':
 		form = add_Question_Form(data=request.POST)
+		category1 = request.POST.get("category1","") ## Dangerous
+		category2 = request.POST.get("category2","")
+		category3 = request.POST.get("category3","")
+		category4 = request.POST.get("category4","")
+		for i in {category1,category2,category3,category4}:
+			if not Categories.objects.filter(categories = i).exists():
+				Categories(categories = i).save()
 		if form.is_valid():
 			form.save(commit=True)
 			return HttpResponseRedirect('/write')
@@ -77,35 +86,62 @@ def detail(request, question_id):
 	author = request.user
 	print request.POST
 	# upvote submission
-	if request.method == 'POST' and request.POST.get("submit","") == "upvote": ############
+	if request.method == 'POST' and (request.POST.get("submit","") == "upvote" or request.POST.get("submit","") == "upvoted"): 
 		form = add_Answer_Form(request.POST)
 		answer_id = request.POST.get("answer_id","")
 		answer = Answer.objects.get(pk=answer_id)
 		User = request.user
 		if Upvote.objects.filter(upvoted_user=User,answer=answer).exists():
-			print "already exists"
+			up = Upvote.objects.get(upvoted_user=User,answer=answer)
+			up.delete()
+			answer.upvotes-=1
+			if request.user.is_staff:
+				answer.faculty_upvote-=1
+			answer.save()
 		else:
 			vote = Upvote(upvoted_user=User,answer=answer)
 			answer.upvotes+=1
+			if request.user.is_staff:
+				answer.faculty_upvote+=1
 			answer.save()
 			vote.save()
 		return HttpResponseRedirect('/write/%s' % str(question_id))
-		# answer submission
+	if request.method == 'POST' and request.POST.get("submit","") == "delete":
+		answer_id = request.POST.get("answer_id","")
+		print answer_id
+		answer = Answer.objects.get(pk=answer_id)
+		answer.delete()
+		return HttpResponseRedirect('/write/%s' % str(question_id))
+
 	if request.method == 'POST' and request.POST.get("submit","") == "Add Answer":
 		form = add_Answer_Form(data=request.POST)
 		if form.is_valid():
 			ans = Answer(answer_text=form.clean_text(),question=ques,author=author)
 			ans.save()
 			return HttpResponseRedirect('/write/%s' % str(question_id))
+
+	elif request.method == 'POST' and (request.POST.get("submit","") == "verify" or request.POST.get("submit","") == "verified") :
+		if request.user.is_authenticated() and request.user.is_staff:
+			answer_id = request.POST.get("answer_id","")
+			ans = Answer.objects.get(pk=answer_id)
+			if ans.verify == False:
+				ans.verify = True
+			else:
+				ans.verify = False
+			ans.save()
+			form = add_Answer_Form()
+			return render(request, 'staff_detail.html', {"template_title":title,"answer":answer,
+			'form':form,'question': question,'check_upvoted_already': current_users_upvoted_answers })
+
 	elif request.user.is_authenticated():
 		if request.user.is_staff:
 			form = add_Answer_Form()
 			return render(request, 'staff_detail.html', {"template_title":title,"answer":answer,
 			'form':form,'question': question,'check_upvoted_already': current_users_upvoted_answers })
-			
+
 	form = add_Answer_Form()
 	return render(request, 'detail.html', {"template_title":title,"answer":answer,
 			'form':form,'question': question,'check_upvoted_already': current_users_upvoted_answers })
 
-# def vote(request, answer_id):
-# 	print answer_id
+def read(request):
+	return render(request,'read.html',{})

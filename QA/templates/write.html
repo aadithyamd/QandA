@@ -2,9 +2,12 @@
 {% load crispy_forms_tags %}
 {% block form_question %}
 <div class="container ">
+	
 	<form method='POST' action=''>
+
 	{% csrf_token %}
 	{{ form |crispy }}
+
 	<input class='btn btn-primary' type='submit' value='Add Question'/>
 </div>
 {% endblock %}

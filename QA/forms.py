@@ -10,7 +10,8 @@ class add_Question_Form(forms.ModelForm): # just a regular form
     class Meta:
         model = Question
         fields = "__all__" 
-#        fields = ['question_text']
+        #fields = ('question_text',)
+
     def clean_text(self):
         if question_text == "":
             raise forms.ValidationError(
