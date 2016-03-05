@@ -21,13 +21,13 @@
 {% endblock %}
 {% block answer_container %}
 {% for i in answer %}
-<div class="container">
-	<div class="jumbotron">
+<br>
+<div class="container img-rounded bg-info"><br>
 
-    <div class="col-md-1 text-center"> 
+    <div class="col-md-1 bg-primary img-rounded text-center"> 
       {{i.author}} 
     </div>
-      <div class="col-md-9 ">
+      <div class="col-md-7 ">
       {{i.answer_text}}
       </div>
       <div class="col-md-2 ">

@@ -8,11 +8,12 @@ urlpatterns = [
     url(r'^$','QA.views.home', name='home'),
     url(r'^write/$','QA.views.listquestions', name='write'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^accounts/login/$',  login),
+    url(r'^accounts/login/$',login),
     url(r'^accounts/logout/$', logout),
     url(r'^register/$','QA.views.register_view' ,name='register'),
     url(r'^write/(?P<question_id>[0-9]*)$','QA.views.detail' ,name='question_id'), ##
     url(r'^logout/','QA.views.logout_view', name='logout'),
+    url(r'^read/$', 'QA.views.read' ,name='read'),
     # url(r'^accounts/', include('registration.backends.simple.urls')), # not sure
 	# url(r'^$', 'django.contrib.auth.views.login'),
     # url(r'^logout/$', logout_page),

@@ -2,18 +2,23 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
+class Categories(models.Model):
+	categories = models.CharField(max_length=120, blank=False,null=False)
+	def __unicode__(self): 
+		return self.categories
 class Question(models.Model):
-	question_text = models.CharField(max_length=120, blank=False,null=True)
-	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
-	category1 = models.CharField(max_length=120, blank=True,default="")
-	category2 = models.CharField(max_length=120, blank=True,null=True)
-	category3 = models.CharField(max_length=120, blank=True,null=True)
-	category4 = models.CharField(max_length=120, blank=True,null=True)
+	question_text = models.TextField(blank=False,null=True)
+	upload = models.FileField(upload_to='uploads/%Y/%m/%d/',blank=True,null=True) #if null is true then NULL is set if no value
+	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)# but in forms, set blank=True,form can be left.  
+	category1 = models.ForeignKey(Categories,blank=True,null=True,related_name='category1')
+	category2 = models.ForeignKey(Categories,blank=True,null=True,related_name='category2')
+	category3 = models.ForeignKey(Categories,blank=True,null=True,related_name='category3')
+	category4 = models.ForeignKey(Categories,blank=True,null=True,related_name='category4')
 	def __unicode__(self): 
 		return self.question_text
 
 class Answer(models.Model):
-	answer_text = models.CharField(max_length=200, blank=False,null=True)
+	answer_text = models.TextField(blank=False,null=True)
 	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
 	question = models.ForeignKey(Question)
 	author = models.ForeignKey(User)
@@ -24,8 +29,6 @@ class Answer(models.Model):
 		return self.answer_text
 
 class Upvote(models.Model):
-	upvoted_user = models.ForeignKey(User, default=1)
-	answer = models.ForeignKey(Answer, default=1)
+	upvoted_user = models.ForeignKey(User)
+	answer = models.ForeignKey(Answer)
 
-class Categories(models.Model):
-	categories = models.CharField(max_length=120, blank=False)

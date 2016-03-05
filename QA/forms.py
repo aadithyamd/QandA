@@ -1,5 +1,5 @@
 from django import forms
-from .models import Question, Answer
+from .models import Question, Answer, Categories
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _

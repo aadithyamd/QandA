@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'crispy_forms',
     'QA',
+    'broadcasts',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -63,6 +64,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'broadcasts.context_processors.broadcast_message',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -105,7 +107,7 @@ STATIC_ROOT = os.path.join(BASE_DIR,"static","static_root")
 # REGISTRATION_OPEN = True 
 # ACCOUNT_ACTIVATION_DAYS = 7  
 # REGISTRATION_AUTO_LOGIN = True 
-# LOGIN_URL = '/accounts/login/'
+LOGIN_URL = '/accounts/login/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,"static","our_static"),
 
