@@ -1,5 +1,5 @@
 from django import forms
-from .models import Question, Answer, Categories
+from .models import Question, Answer, Categories, Customuser
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -51,7 +51,7 @@ class UserCreationForm(forms.ModelForm):
     # we shall set the User's password by user.set_password.
 
     class Meta:
-        model = User
+        model = Customuser
         fields = ("username","email","first_name","is_staff")
 
 
@@ -106,5 +106,7 @@ class AuthenticationForm(forms.Form):
                     )
             else:
                 return self.cleaned_data
-
-        
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = Customuser
+        fields = ('categories',)

@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .forms import add_Question_Form, add_Answer_Form, UserCreationForm, AuthenticationForm# RegistrationForm
-from .models import Question, Answer, Upvote, Categories
+from .forms import add_Question_Form, add_Answer_Form, UserCreationForm, AuthenticationForm,UserForm# RegistrationForm
+from .models import Question, Answer, Upvote, Categories, Customuser
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import auth
 from django.http import HttpResponseRedirect, HttpResponse
@@ -8,10 +8,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import Permission
-
+import ast
+from datetime import timedelta
+from django.utils.timezone import now
+from django.db.models import Q
 @login_required 
 def home(request):
 	if request.user.is_authenticated():
+		#User.objects.request.user.last_login = now()
+		Cuser = Customuser.objects.get(username=request.user.username)
+		Cuser.last_login = now()
 		return HttpResponseRedirect("/write")
 	location = "/"
 	form = AuthenticationForm(request.POST)
@@ -33,18 +39,23 @@ def home(request):
 def register_view(request):
 	if request.method == 'POST':
 		form = UserCreationForm(data=request.POST)
+		print request.POST
+		print request.POST.get("categories","")
 		if form.is_valid():
 			# permission = Permission.objects.get(name='Can view poll')
 			# user.user_permissions.add(permission)
-			user = form.save()
+			user = form.save(commit=False)
+			user.save()
 			return HttpResponseRedirect('/')
 	else:
 		form = UserCreationForm()
 	context = { "form":form, }
 	return render(request,"register.html",context)
 
-
+@login_required
 def logout_view(request):
+	Cuser = Customuser.objects.get(username=request.user.username)
+	Cuser.last_login = now()
 	auth.logout(request)
 	# Redirect to a success page.
 	return HttpResponseRedirect("/")
@@ -63,7 +74,8 @@ def listquestions(request):
 			return HttpResponse({category}, content_type ="application/text")
 
 		form = add_Question_Form(data=request.POST)
-		questionform = form.save(commit=False)
+		if form.is_valid:
+			questionform = form.save(commit=False)
 		category1 = request.POST.get("category1","") ## Dangerous
 		category2 = request.POST.get("category2","")
 		category3 = request.POST.get("category3","")
@@ -88,7 +100,7 @@ def listquestions(request):
 			questionform.save()
 			return HttpResponseRedirect('/write')
 	else:
-		c = list(Categories.objects.all().values_list('categories', flat=True).order_by('categories'))  
+		c = list(Categories.objects.all().values_list('categories', flat=True).order_by('categories'))  #change
 		form = add_Question_Form()
 	qlist = Question.objects.all()
 	context = {
@@ -112,7 +124,7 @@ def detail(request, question_id):
 	print request.POST
 	# upvote submission
 	if request.method == 'POST' and (request.POST.get("submit","") == "upvote" or request.POST.get("submit","") == "upvoted"): 
-		form = add_Answer_Form(request.POST)
+		#form = add_Answer_Form(request.POST)
 		answer_id = request.POST.get("answer_id","")
 		answer = Answer.objects.get(pk=answer_id)
 		User = request.user
@@ -124,7 +136,7 @@ def detail(request, question_id):
 				answer.faculty_upvote-=1
 			answer.save()
 		else:
-			vote = Upvote(upvoted_user=User,answer=answer)
+			vote = Upvote(upvoted_user=User,answer=answer,question=answer.question)
 			answer.upvotes+=1
 			if request.user.is_staff:
 				answer.faculty_upvote+=1
@@ -158,7 +170,7 @@ def detail(request, question_id):
 			return render(request, 'staff_detail.html', {"template_title":title,"answer":answer,
 			'form':form,'question': question,'check_upvoted_already': current_users_upvoted_answers })
 
-	elif request.user.is_authenticated():
+	if request.user.is_authenticated():
 		if request.user.is_staff:
 			form = add_Answer_Form()
 			return render(request, 'staff_detail.html', {"template_title":title,"answer":answer,
@@ -172,6 +184,81 @@ def read(request):
 	question_id = 2
 	answer_id = 2
 	answer = Answer.objects.get(pk = answer_id)
+	#c = list(Categories.objects.all().values_list('categories', flat=True))
+	Cuser = Customuser.objects.get(username=request.user.username)
+	print Cuser
+	c=Categories.objects.all()
+	#print Cuser.category
+	if request.POST:					
+		if Cuser.category is None:
+			a = []
+			a.append(int(request.POST.get("category","")))
+		else:
+			a = ast.literal_eval(Cuser.category)
+			b = []
+			b.append(int(request.POST.get("category","")))
+			a= list(set(a)|set(b))
+			#resultList=[1,2,5,7,9]
+			#a = a + list(d)
+		Cuser.category = str(a)
+		Cuser.save()
+
+
+	if Cuser.category != None:
+		categorylistofuser = ast.literal_eval(Cuser.category)
+	else :
+		categorylistofuser = []
+	Qobjects = []
+	for i in categorylistofuser:
+		Qobjects += (Question.objects.filter(Q(Q(category1=i) |Q(category2=i)|Q(category3=i)|Q(category4=i))))
+	#print Qobjects
+	Aobjects = []
+	for i in Qobjects:
+		Aobjects += Answer.objects.filter(question=i)
+	#print Aobjects
+	LatestAobjects = []
+	onesecond = timedelta(seconds=1)
+	for i in Aobjects:
+		if (i.timestamp-Cuser.last_login) > onesecond:
+			LatestAobjects.append(i)
+	print LatestAobjects
+	
+
+	#Latest Questions
+	print "Latest Questions"
+	LatestQobjects = []
+	for i in Qobjects:
+		if (i.timestamp-Cuser.last_login) > onesecond:
+			LatestQobjects.append(i)
+	print LatestQobjects
+	
+
+	print "Latest new Answers in upvoted answer's question"
+	# User upvoted an answer that belonged to another category. New answer to that questions are shown
+	Uobjects = Upvote.objects.filter(upvoted_user=Cuser)
+	QofUobjects = []
+	AofUobjects = []
+	for i in Uobjects:
+		QofUobjects.append(i.question)
+		AofUobjects.append(i.answer)
+	print QofUobjects
+	othersAofUobjects = []
+	otherAofUobjects  = []
+	for i in QofUobjects:
+		otherAofUobjects += Answer.objects.filter(question=i)
+	for i in otherAofUobjects:
+		if i not in AofUobjects:
+			 othersAofUobjects.append(i)
+	print othersAofUobjects
+	LatestothersAofUobjects = []
+	onesecond = timedelta(seconds=1)
+	for i in othersAofUobjects:
+		if (i.timestamp-Cuser.last_login) > onesecond:
+			LatestothersAofUobjects.append(i)
+	print LatestothersAofUobjects
+
+
 	#ques = answer.question
 	#question = Question.objects.filter(pk=question_id)
-	return render(request,'read.html',{"answer":answer})
+	return render(request,'read.html',{"LatestAobjectslist":LatestAobjects,"LatestQobjectslist":LatestQobjects,
+		"LatestothersAofUobjectslist":LatestothersAofUobjects,"categorylist":c})

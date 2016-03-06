@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,UserManager
 # Create your models here.
 class Categories(models.Model):
 	categories = models.CharField(max_length=120, blank=False,null=False)
@@ -31,6 +31,9 @@ class Answer(models.Model):
 class Upvote(models.Model):
 	upvoted_user = models.ForeignKey(User)
 	answer = models.ForeignKey(Answer)
+	question = models.ForeignKey(Question,default=1)
 
-class Custom_user(User):
-	category = models.ManyToManyField('Categories')
+class Customuser(User):
+	category = models.CharField(max_length=300, blank=True,null=True)
+	categories = models.ManyToManyField(Categories,related_name='intrested_in')
+	#objects = UserManager()

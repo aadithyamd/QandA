@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Question, Answer, Upvote, Categories, Custom_user
+from .models import Question, Answer, Upvote, Categories, Customuser
 from .forms import add_Question_Form, add_Answer_Form
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -21,10 +21,10 @@ class UpvoteAdmin(admin.ModelAdmin):
 class CategoriesAdmin(admin.ModelAdmin):
 	list_display = ["categories"]
 
-class Custom_userAdmin(admin.ModelAdmin):
-	list_display = ["cateogry"]
+class CustomuserAdmin(admin.ModelAdmin):
+	list_display = ["username","category"]
 admin.site.register(Question,QuestionAdmin)
 admin.site.register(Answer,AnswerAdmin)
 admin.site.register(Upvote,UpvoteAdmin)
 admin.site.register(Categories,CategoriesAdmin)
-admin.site.register(Custom_user,Custom_userAdmin)
+admin.site.register(Customuser,CustomuserAdmin)

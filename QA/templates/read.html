@@ -2,31 +2,85 @@
 {% load crispy_forms_tags %}
 {% block read_container %}
 <div class="container">
+    <form action="" method="POST">{% csrf_token %}
+        <select class="select form-control" id="id_category" name="category">         
+            <option value="0" selected="selected">Select a category</option>
+            {% for i in categorylist %}
+            <option value='{{ i.pk }}' >{{i.categories}}</option>
+            {% endfor %}
+        </select>
+        <input class='btn btn-default' type='submit' value='Add Category'/>
+    </form>
+{%for answer in LatestAobjectslist %}  
+<br>
 <div class="row">
-
-  <div class="col-md-6 col-md-offset-2">
-    <h3>{{answer.question}}</h3>
+  <div class="col-md-6 col-md-offset-2 bg-info img-rounded">
+    <div >
+    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"> Recently Added Answer</span>
+   </div>
+    <h2>{{answer.question}}</h2>
     <div class="col-xs-2 col-sm-2 bg-primary img-rounded"> 
     {{answer.author}}
     </div>
     <br>
     <br>
     {{answer}}
-    <hr>
+<br><br>
   </div>
-
-<div class="col-md-6 col-md-offset-2">
-    <h3>{{answer.question}}</h3>
-    <div class="col-xs-2 col-sm-2 bg-primary img-rounded"> 
-    {{answer.author}}
-    </div>
-    <br>
-    <br>
-    {{answer}}
-    <hr>
-    <!-- <hr style="width: 100%;height: 1px; background-color:black;"> -->
-  </div>
-
 </div>
+{%endfor%}
+{%for question in LatestQobjectslist %}  
+<br>
+<div class="row">
+  <div class="col-md-6 col-md-offset-2 bg-danger img-rounded">
+    <div >
+    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"> Recently Added Question</span>
+    </div>
+    <h2>{{question.question_text}}</h2>
+    {%if question.category1.categories %}
+    <div class="col-xs-2 col-sm-2 bg-info img-rounded"> 
+    {{question.category1.categories}}
+    </div>
+    {%endif%}
+    {%if question.category2.categories %}
+    <div class="col-xs-2 col-sm-2 bg-info img-rounded"> 
+    {{question.category2.categories}}
+    </div>
+    {%endif%}
+    {%if question.category3.categories %}
+    <div class="col-xs-2 col-sm-2 bg-info img-rounded"> 
+    {{question.category3.categories}}
+    </div>
+    {%endif%}
+    {%if question.category4.categories %}
+    <div class="col-xs-2 col-sm-2 bg-info img-rounded"> 
+    {{question.category4.categories}}
+    </div>
+    {%endif%}
+    <br><br><br>
+  </div>
+</div>
+{%endfor%}
+
+{%for answer in LatestothersAofUobjectslist %}  
+<br>
+<div class="row">
+  <div class="col-md-6 col-md-offset-2">
+    <div >
+    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"> New answer to an already upvoted answer</span>
+   </div>
+    <h2>{{answer.question}}</h2>
+    <div class="col-xs-2 col-sm-2 bg-primary img-rounded"> 
+    {{answer.author}}
+    </div>
+    <br>
+    <br>
+    {{answer}}
+    <hr>
+  </div>
+</div>
+{%endfor%}
+
+
 </div>
 {% endblock %}
