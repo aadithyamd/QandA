@@ -32,3 +32,5 @@ class Upvote(models.Model):
 	upvoted_user = models.ForeignKey(User)
 	answer = models.ForeignKey(Answer)
 
+class Custom_user(User):
+	category = models.ManyToManyField('Categories')

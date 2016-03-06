@@ -172,6 +172,6 @@ def read(request):
 	question_id = 2
 	answer_id = 2
 	answer = Answer.objects.get(pk = answer_id)
-	ques = Question.objects.get(pk=question_id) 
-	question = Question.objects.filter(pk=question_id)
-	return render(request,'read.html',{'question': question,"answer":answer,"ques":ques})
+	#ques = answer.question
+	#question = Question.objects.filter(pk=question_id)
+	return render(request,'read.html',{"answer":answer})
