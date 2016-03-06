@@ -74,7 +74,7 @@ def listquestions(request):
 			return HttpResponse({category}, content_type ="application/text")
 
 		form = add_Question_Form(data=request.POST)
-		if form.is_valid:
+		if form.is_valid():
 			questionform = form.save(commit=False)
 		category1 = request.POST.get("category1","") ## Dangerous
 		category2 = request.POST.get("category2","")
@@ -100,9 +100,9 @@ def listquestions(request):
 			questionform.save()
 			return HttpResponseRedirect('/write')
 	else:
-		c = list(Categories.objects.all().values_list('categories', flat=True).order_by('categories'))  #change
 		form = add_Question_Form()
 	qlist = Question.objects.all()
+	c = list(Categories.objects.all().values_list('categories', flat=True).order_by('categories'))  #change
 	context = {
 	"list":qlist,
 	"form":form,
@@ -221,7 +221,7 @@ def read(request):
 	for i in Aobjects:
 		if (i.timestamp-Cuser.last_login) > onesecond:
 			LatestAobjects.append(i)
-	print LatestAobjects
+	LatestAobjects = list(set(LatestAobjects))
 	
 
 	#Latest Questions
@@ -230,7 +230,7 @@ def read(request):
 	for i in Qobjects:
 		if (i.timestamp-Cuser.last_login) > onesecond:
 			LatestQobjects.append(i)
-	print LatestQobjects
+	LatestQobjects = list(set(LatestQobjects))
 	
 
 	print "Latest new Answers in upvoted answer's question"
@@ -255,7 +255,7 @@ def read(request):
 	for i in othersAofUobjects:
 		if (i.timestamp-Cuser.last_login) > onesecond:
 			LatestothersAofUobjects.append(i)
-	print LatestothersAofUobjects
+	LatestothersAofUobjects = list(set(LatestothersAofUobjects))
 
 
 	#ques = answer.question
