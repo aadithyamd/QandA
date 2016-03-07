@@ -2,7 +2,8 @@
 {% load crispy_forms_tags %}
 {% block form_question %}
 <div class="container ">
-<form method='POST' action=''>		{% csrf_token %}
+<form method='POST' action=''>		
+	{% csrf_token %}
 	<div class='row'>
 	<div id='qtext' class='form-group col-md-6'>
 		Question Text*
@@ -21,7 +22,7 @@
 		<select class="select form-control" id="id_category1" name="category1">			
 			<option value="0" selected="selected">Select a category</option>
 			{% for i in categorylist %}
-			<option value='{{ forloop.counter }}' >{{i}}</option>
+			<option value='{{ i.pk }}' >{{i}}</option>
 			{% endfor %}
 		</select>
 	</div>
@@ -34,7 +35,7 @@
 		<select class="select form-control" id="id_category2"  name="category2">
 			<option value="" selected="selected">Select a category</option>
 			{% for i in categorylist %}
-			<option value='{{ forloop.counter }}' >{{i}}</option>
+			<option value='{{ i.pk }}' >{{i}}</option>
 			{% endfor %}
 		</select>
 	</div>
@@ -52,7 +53,7 @@
 		<select class="select form-control" id="id_category3" name="category3">
 			<option value="" selected="selected">Select a category</option>
 			{% for i in categorylist %}
-			<option value='{{ forloop.counter }}'>{{i}}</option>
+			<option value='{{ i.pk }}'>{{i}}</option>
 			{% endfor %}
 
 		</select>
@@ -66,7 +67,7 @@
 		<select class="select form-control" id="id_category4" name="category4">
 			<option value="" selected="selected">Select a category</option>
 			{% for i in categorylist %}
-			<option value='{{ forloop.counter }}' >{{i}}</option>
+			<option value='{{ i.pk }}' >{{i}}</option>
 			{% endfor %}
 		</select>
 	</div>
@@ -157,11 +158,14 @@ $('#createcategory').click(function(event) {
    $.ajax({
    	  type:"POST",
    	  data: dataform,
-      success: function(data) {
+   	  success: function(data) {
+      	$('#qtext').prepend(data);
       	if(data != 0){
        $('#id_category4,#id_category3,#id_category2,#id_category1').append($('<option>', {
-    text: data
+    text: data.category,
+    value: data.cid,
 }));}
+       
        else{
        	$('#qtext').prepend("<div class='alert alert-danger'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Category already exists! </strong>Choose a category from the list.</div>");
       }

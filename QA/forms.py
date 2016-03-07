@@ -17,7 +17,7 @@ class add_Question_Form(forms.ModelForm): # just a regular form
             raise forms.ValidationError(
                 "Need a question",)
         else:
-            return question_text
+            return True
     
     def save(self,commit=True):
         question = super(add_Question_Form, self).save(commit=False)

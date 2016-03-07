@@ -3,7 +3,7 @@ from .forms import add_Question_Form, add_Answer_Form, UserCreationForm, Authent
 from .models import Question, Answer, Upvote, Categories, Customuser
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import auth
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse,JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
@@ -15,24 +15,26 @@ from django.db.models import Q
 @login_required 
 def home(request):
 	if request.user.is_authenticated():
-		#User.objects.request.user.last_login = now()
-		Cuser = Customuser.objects.get(username=request.user.username)
-		Cuser.last_login = now()
-		return HttpResponseRedirect("/write")
+	 	if len(Customuser.objects.filter(username=request.user.username))==1:
+	 		Cuser = Customuser.objects.get(username=request.user.username)
+	 		Cuser.last_login = now()
+	 		return HttpResponseRedirect("/write")
 	location = "/"
 	form = AuthenticationForm(request.POST)
 	context ={  
 	"form":form,
 	"next": location
 	}
-
 	if form.is_valid() and form.clean() != "":
 		username = request.POST.get('username', '')
 		password = request.POST.get('password', '')
 		user = auth.authenticate(username=username, password=password)
-		if user is not None and user.is_active:
-			auth.login(request, user)
-			return HttpResponseRedirect("/write")
+		if user is not None :
+			if user.is_superuser:
+				return render(request,"home.html",context)
+			elif user.is_active:
+				auth.login(request, user)
+				return HttpResponseRedirect("/write")
 	return render(request,"home.html",context)
 
 
@@ -54,6 +56,8 @@ def register_view(request):
 
 @login_required
 def logout_view(request):
+	if request.user.is_superuser:
+		return HttpResponseRedirect('/accounts/login')
 	Cuser = Customuser.objects.get(username=request.user.username)
 	Cuser.last_login = now()
 	auth.logout(request)
@@ -62,6 +66,8 @@ def logout_view(request):
 	
 @login_required
 def listquestions(request):
+	if request.user.is_superuser:
+		return HttpResponseRedirect('/accounts/login')
 	category_object = []
 	if request.method == 'POST':
 		print request.POST
@@ -69,13 +75,16 @@ def listquestions(request):
 			category = request.POST.get("newcategory","")
 			if not Categories.objects.filter(categories = category).exists():
 				Categories(categories = category).save()
+				category = Categories.objects.get(categories = category)
+				return JsonResponse({"category":category.categories,"cid":category.pk}, content_type ="application/json")
 			else:
 				category = 0
-			return HttpResponse({category}, content_type ="application/text")
+				return HttpResponse({category}, content_type ="application/text")
 
 		form = add_Question_Form(data=request.POST)
-		if form.is_valid():
-			questionform = form.save(commit=False)
+		print form.is_valid()
+		#if form.is_valid():
+		#	questionform = questionform.save(commit=False)
 		category1 = request.POST.get("category1","") ## Dangerous
 		category2 = request.POST.get("category2","")
 		category3 = request.POST.get("category3","")
@@ -83,35 +92,39 @@ def listquestions(request):
 		for i in {category1,category2,category3,category4}:
 			if Categories.objects.filter(categories = i).exists():
 				category_object.append(Categories.objects.get(categories = i))
-			if not Categories.objects.filter(categories = i).exists():
+			else:
 				C = Categories(categories = i).save()
 				category_object.append(C)
+		category_object.append(None)
+		category_object.append(None)
+		category_object.append(None)
+		category_object.append(None)
+		category_object.append(None)
+		print category_object
+		form.category1 = category_object[0]
+		form.category2 = category_object[1]
+		form.category3 = category_object[2]
+		form.category4 = category_object[3]
+		form.category5 = category_object[4]
 		if form.is_valid():
-			category_object.append(None)
-			category_object.append(None)
-			category_object.append(None)
-			category_object.append(None)
-			print category_object
-			questionform.category1 = category_object[0]
-			questionform.category2 = category_object[1]
-			questionform.category3 = category_object[2]
-			questionform.category4 = category_object[3]
-			questionform.category5 = category_object[4]
-			questionform.save()
-			return HttpResponseRedirect('/write')
+			form.save(commit=True)
+		return HttpResponseRedirect('/write')
 	else:
 		form = add_Question_Form()
 	qlist = Question.objects.all()
-	c = list(Categories.objects.all().values_list('categories', flat=True).order_by('categories'))  #change
+	c = Categories.objects.all()  #change
 	context = {
-	"list":qlist,
-	"form":form,
-	"categorylist":c
+		"list":qlist,
+		"form":form,
+		"categorylist":c
 	}
 	return render(request,"write.html",context)
 
 @login_required
 def detail(request, question_id):
+	if request.user.is_superuser:
+		return HttpResponseRedirect('/accounts/login')
+
 	answer = Answer.objects.filter(question = question_id)
 	ques = Question.objects.get(pk=question_id) 
 	question = Question.objects.filter(pk=question_id) #list obtained for iteration in template
@@ -179,15 +192,38 @@ def detail(request, question_id):
 	form = add_Answer_Form()
 	return render(request, 'detail.html', {"template_title":title,"answer":answer,
 			'form':form,'question': question,'check_upvoted_already': current_users_upvoted_answers })
-
+@login_required
 def read(request):
+	if request.user.is_superuser:
+		return HttpResponseRedirect('/accounts/login')
 	question_id = 2
 	answer_id = 2
 	answer = Answer.objects.get(pk = answer_id)
-	#c = list(Categories.objects.all().values_list('categories', flat=True))
+	current_users_upvoted_content = Upvote.objects.filter(upvoted_user=request.user)
+	current_users_upvoted_answers = []
+	for i in current_users_upvoted_content:
+		current_users_upvoted_answers.append(i.answer)
 	Cuser = Customuser.objects.get(username=request.user.username)
 	print Cuser
 	c=Categories.objects.all()
+	if request.method == 'POST' and (request.POST.get("submit","") == "upvote" or request.POST.get("submit","") == "upvoted"): 
+		answer_id = request.POST.get("answer_id","")
+		answer = Answer.objects.get(pk=answer_id)
+		if Upvote.objects.filter(upvoted_user=Cuser,answer=answer).exists():
+			up = Upvote.objects.get(upvoted_user=Cuser,answer=answer)
+			up.delete()
+			answer.upvotes-=1
+			if request.user.is_staff:
+				answer.faculty_upvote-=1
+			answer.save()
+		else:
+			vote = Upvote(upvoted_user=Cuser,answer=answer,question=answer.question)
+			answer.upvotes+=1
+			if request.user.is_staff:
+				answer.faculty_upvote+=1
+			answer.save()
+			vote.save()
+		return HttpResponseRedirect('/read')
 	#print Cuser.category
 	if request.POST:					
 		if Cuser.category is None:
@@ -257,8 +293,9 @@ def read(request):
 			LatestothersAofUobjects.append(i)
 	LatestothersAofUobjects = list(set(LatestothersAofUobjects))
 
-
+	print "listing all answers by upvote order"
+	JustAobjects = Answer.objects.all().order_by('upvotes')
 	#ques = answer.question
 	#question = Question.objects.filter(pk=question_id)
-	return render(request,'read.html',{"LatestAobjectslist":LatestAobjects,"LatestQobjectslist":LatestQobjects,
-		"LatestothersAofUobjectslist":LatestothersAofUobjects,"categorylist":c})
+	return render(request,'read.html',{"check_upvoted_already":current_users_upvoted_answers,"LatestAobjectslist":LatestAobjects,"LatestQobjectslist":LatestQobjects,
+		"LatestothersAofUobjectslist":LatestothersAofUobjects,"categorylist":c,"JustAobjectslist":JustAobjects})

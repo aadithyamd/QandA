@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^write/$','QA.views.listquestions', name='write'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/login/$',login),
+    url(r'^accounts/profile/$','QA.views.home', name='home'),
     url(r'^accounts/logout/$', logout),
     url(r'^register/$','QA.views.register_view' ,name='register'),
     url(r'^write/(?P<question_id>[0-9]*)$','QA.views.detail' ,name='question_id'), ##
