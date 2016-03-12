@@ -4,7 +4,10 @@
 {% for i in question %}
 <div class="container">
 	<div class="jumbotron">
- <a class="lead" href="{{i.pk}}">{{i.question_text}}<br></a>
+ <a class="lead" href="{{i.pk}}">{{i.question_text}}<br></a><br>
+ {% if i.upload = True %}
+<a href="{{i.upload.url}}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>  Uploaded File</a>
+{% endif %}
 </div>
 </div>
 {% endfor %}

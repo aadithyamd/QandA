@@ -1,0 +1,658 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"categ",
+				"categories"
+			],
+			[
+				"cate",
+				"category4"
+			],
+			[
+				"order",
+				"order_by"
+			],
+			[
+				"ca",
+				"category"
+			],
+			[
+				"C",
+				"Cuser"
+			],
+			[
+				"def",
+				"default"
+			],
+			[
+				"La",
+				"LatestAobjects"
+			],
+			[
+				"re",
+				"request"
+			],
+			[
+				"Q",
+				"Qobjects"
+			],
+			[
+				"pr",
+				"print"
+			],
+			[
+				"categor",
+				"Categories"
+			],
+			[
+				"categori",
+				"categories_liked"
+			],
+			[
+				"is",
+				"is_valid"
+			],
+			[
+				"Us",
+				"UserForm"
+			],
+			[
+				"id",
+				"id_category"
+			],
+			[
+				"cs",
+				"csrftoken"
+			],
+			[
+				"new",
+				"newcategory"
+			],
+			[
+				"clea",
+				"cleaned_data"
+			],
+			[
+				"answer",
+				"answer_text"
+			],
+			[
+				"question",
+				"question_id"
+			],
+			[
+				"ans",
+				"answer"
+			],
+			[
+				"us",
+				"user"
+			],
+			[
+				"e",
+				"exists"
+			],
+			[
+				"an",
+				"answer"
+			],
+			[
+				"cu",
+				"current_users_upvoted_answers"
+			],
+			[
+				"U",
+				"Upvote"
+			],
+			[
+				"F",
+				"ForeignKey"
+			],
+			[
+				"questi",
+				"question_id"
+			],
+			[
+				"log",
+				"login_required"
+			],
+			[
+				"qu",
+				"question"
+			],
+			[
+				"ques",
+				"question_text"
+			],
+			[
+				"password_",
+				"password_validation"
+			],
+			[
+				"a",
+				"answer"
+			],
+			[
+				"add",
+				"add_Answer"
+			],
+			[
+				"h",
+				"h3	Tag"
+			],
+			[
+				"Quest",
+				"QuesetionAdmin"
+			],
+			[
+				"q",
+				"Question_text"
+			],
+			[
+				"static",
+				"static_in_pro"
+			],
+			[
+				"for",
+				"forms"
+			],
+			[
+				"ema",
+				"email_base"
+			],
+			[
+				"Si",
+				"SignUpForm"
+			],
+			[
+				"signup",
+				"SignUp"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/QA/models.py",
+			"settings":
+			{
+				"buffer_size": 1808,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/QA/views.py",
+			"settings":
+			{
+				"buffer_size": 10954,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/QA/templates/write.html",
+			"settings":
+			{
+				"buffer_size": 6809,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/QA/templates/read.html",
+			"settings":
+			{
+				"buffer_size": 3934,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/QA/templates/base.html",
+			"settings":
+			{
+				"buffer_size": 2526,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/QA/templates/detail.html",
+			"settings":
+			{
+				"buffer_size": 1632,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/mini/urls.py",
+			"settings":
+			{
+				"buffer_size": 1361,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/QA/forms.py",
+			"settings":
+			{
+				"buffer_size": 4067,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 160.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/harish/mini/src/QA/forms.py",
+		"/home/harish/mini/src/QA/admin.py",
+		"/home/harish/mini/src/broadcasts/managers.py",
+		"/home/harish/mini/src/QA/templates/write.html",
+		"/home/harish/mini/src/QA/managers.py",
+		"/home/harish/mini/src/QA/templates/base.html",
+		"/home/harish/mini/src/QA/templates/staff_detail.html",
+		"/home/harish/mini/src/QA/templates/read.html",
+		"/home/harish/mini/src/QA/templates/drop.html",
+		"/home/harish/mini/src/QA/templates/registration/drop.html",
+		"/home/harish/mini/src/QA/templates/registration/login.html",
+		"/home/harish/mini/src/mini/urls.py",
+		"/home/harish/mini/src/QA/templates/navbar.html",
+		"/home/harish/mini/src/mini/settings.py",
+		"/home/harish/mini/src/QA/templates/detail.html",
+		"/home/harish/mini/src/QA/templates/home.html",
+		"/home/harish/mini/src/QA/tests.py",
+		"/home/harish/mini/src/QA/models.py",
+		"/home/harish/mini/src/QA/__init__.py",
+		"/home/harish/mini/src/QA/templates/register.html",
+		"/home/harish/mini/src/QA/templates/vote.html",
+		"/home/harish/QandA/views.py",
+		"/home/harish/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
+		"/home/harish/mini/src/QA/templates/home1.html",
+		"/home/harish/mini/src/QandA/templates/home.html",
+		"/home/harish/mini/src/QandA/views.py",
+		"/home/harish/mini/src/QandA/forms.py",
+		"/home/harish/mini/src/QandA/admin.py",
+		"/home/harish/mini/src/QandA/models.py",
+		"/home/harish/mini/src/QandA/#views.py#",
+		"/home/harish/mini/src/QandA/templates/registration/login.html",
+		"/home/harish/mini/src/QandA/templates/base.html",
+		"/home/harish/Project_Bear/Bear",
+		"/home/harish/Project_Bear/ProjectBear@email.com/extension.js",
+		"/home/harish/mini/src/QandA/templates/registration/register.html",
+		"/home/harish/mini/src/QandA/templates/registration/success.html",
+		"/home/harish/mini/src/QandA/templates/registration/logout.html",
+		"/home/harish/mini/src/QandA/templates/registration/registration_complete.html",
+		"/home/harish/mini/src/QandA/templates/registration/registration_form.html",
+		"/home/harish/test.py",
+		"/home/harish/consume.py",
+		"/home/harish/myservice.py",
+		"/home/harish/consumeservice.py",
+		"/home/harish/GPaste/src/gnome-shell/extension.js",
+		"/home/harish/service.py",
+		"/home/harish/trydjango/src/newsletter/templates/registration/registration_form.html",
+		"/home/harish/trydjango/src/templates/base.html",
+		"/home/harish/trydjango/src/newsletter/templates/forms.html",
+		"/home/harish/trydjango/src/newsletter/templates/base.html",
+		"/home/harish/trydjango/src/static_in_pro/our_static/css/bootstrap.min.css",
+		"/home/harish/trydjango/src/newsletter/templates/home.html",
+		"/home/harish/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"order_",
+			"Upvote",
+			"upvote",
+			"current_user",
+			"User",
+			"User.",
+			"ilter",
+			"Categories.objects.",
+			"HttpRe",
+			"json",
+			">\n",
+			"print",
+			"xs",
+			"circle",
+			"render_to_response",
+			"authenti",
+			"regis",
+			"RegistrationForm",
+			"login",
+			"admin"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 7,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/QA/models.py",
+					"settings":
+					{
+						"buffer_size": 1808,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1313,
+								1313
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/QA/views.py",
+					"settings":
+					{
+						"buffer_size": 10954,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6567,
+								6567
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1749.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/QA/templates/write.html",
+					"settings":
+					{
+						"buffer_size": 6809,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5479,
+								5479
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 238.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/QA/templates/read.html",
+					"settings":
+					{
+						"buffer_size": 3934,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								323,
+								323
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 75.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/QA/templates/base.html",
+					"settings":
+					{
+						"buffer_size": 2526,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1441,
+								1441
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 225.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/QA/templates/detail.html",
+					"settings":
+					{
+						"buffer_size": 1632,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1586,
+								1586
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 270.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/mini/urls.py",
+					"settings":
+					{
+						"buffer_size": 1361,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								484,
+								484
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/QA/forms.py",
+					"settings":
+					{
+						"buffer_size": 4067,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								305,
+								284
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 36.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 199.0,
+	"status_bar_visible": true
+}

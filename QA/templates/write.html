@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block form_question %}
 <div class="container ">
-<form method='POST' action=''>		
+<form method='POST' enctype="multipart/form-data" action=''>		
 	{% csrf_token %}
 	<div class='row'>
 	<div id='qtext' class='form-group col-md-6'>
@@ -113,8 +113,11 @@
 {% for i in list %}
 <div class="container">
 	<div class="jumbotron">
- <a class="lead" href="{{i.pk}}">{{i.question_text}}<br></a>
-</div>
+		<a class="lead" href="{{i.pk}}">{{i.question_text}}<br></a>
+		<div class="col-xs-2 col-sm-2 bg-primary img-rounded"> 
+	    {{i.author}}
+	    </div>
+	</div>
 </div>
 {% endfor %}
 {% endblock %}

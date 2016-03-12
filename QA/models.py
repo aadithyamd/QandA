@@ -8,8 +8,11 @@ class Categories(models.Model):
 		return self.categories
 class Question(models.Model):
 	question_text = models.TextField(blank=False,null=True)
+	follow = models.IntegerField(default=0)
+	author = models.ForeignKey(User)
 	upload = models.FileField(upload_to='uploads/%Y/%m/%d/',blank=True,null=True) #if null is true then NULL is set if no value
-	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)# but in forms, set blank=True,form can be left.  
+	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)# but in forms, set blank=True,form can be left. 
+	updated = models.DateTimeField(auto_now_add=False, auto_now=True) 
 	category1 = models.ForeignKey(Categories,blank=True,null=True,related_name='category1')
 	category2 = models.ForeignKey(Categories,blank=True,null=True,related_name='category2')
 	category3 = models.ForeignKey(Categories,blank=True,null=True,related_name='category3')
@@ -36,4 +39,13 @@ class Upvote(models.Model):
 class Customuser(User):
 	category = models.CharField(max_length=300, blank=True,null=True)
 	categories = models.ManyToManyField(Categories,related_name='intrested_in')
-	#objects = UserManager()
+	DEPARTMENT = (
+	('CS', 'Computer Science'),
+	('EC', 'Electronics & Communication'),
+	('EE', 'Electrical & Electronics'),
+	('EB', 'Electronics & Biomedical'),
+	)
+
+	department = models.CharField(max_length=2, choices=DEPARTMENT)
+	def __str__(self):
+		return self.username

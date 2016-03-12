@@ -3,13 +3,14 @@
 {% block home_container %}
 {% endblock %}
 {% block read_container %}
+
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-2 bg-success img-rounded">
             <br>
             <form action="" method="POST">
                 {% csrf_token %}
-            Select your prefered category.
+            Add your favourite categories.
             <select class="select form-control" id="id_category" name="category">        
             <option value="0" selected="selected">Select a category</option>
             {% for i in categorylist %}
@@ -27,7 +28,7 @@
     <div >
     <span class="glyphicon glyphicon-share-alt" aria-hidden="true"> Recently Added Answer</span>
    </div>
-    <h2>{{answer.question}}</h2>
+    <a href="/write/{{answer.question.pk}}"><h2>{{answer.question}}</h2></a>
     <div class="col-xs-2 col-sm-2 bg-primary img-rounded"> 
     {{answer.author}}
     </div>
@@ -47,9 +48,9 @@
           </div>
           {% else %}
           <div class="btn-group">
-            <input class='btn btn-primary btn-sm' name='submit' type='submit' value='upvote'/>
+            <input class='btn btn-danger btn-sm' name='submit' type='submit' value='upvote'/>
             <input type="hidden" name="answer_id" value="{{answer.pk}}" />
-            <button class="btn btn-primary btn-sm disabled">{{answer.upvotes}}</button>
+            <button class="btn btn-danger btn-sm disabled">{{answer.upvotes}}</button>
           </div>
           {% endif %}
         </form>
@@ -64,7 +65,7 @@
     <div >
     <span class="glyphicon glyphicon-share-alt" aria-hidden="true"> Recently Added Question</span>
     </div>
-    <h2>{{question.question_text}}</h2>
+    <a href="/write/{{question.pk}}"><h2>{{question.question_text}}</h2></a>
     {%if question.category1.categories %}
     <div class="col-xs-2 col-sm-2 bg-info img-rounded"> 
     {{question.category1.categories}}
@@ -97,13 +98,33 @@
     <div >
     <span class="glyphicon glyphicon-share-alt" aria-hidden="true"> New answer to an already upvoted answer</span>
    </div>
-    <h2>{{answer.question}}</h2>
+    <a href="/write/{{answer.question.pk}}"><h2>{{answer.question}}</h2></a>
     <div class="col-xs-2 col-sm-2 bg-primary img-rounded"> 
     {{answer.author}}
     </div>
     <br>
     <br>
     {{answer}}
+    <br>
+    <br>
+<div class="col-md-3 ">
+    <form method='POST' action=''>
+          {% csrf_token %}
+          {% if answer in check_upvoted_already  %}
+          <div class="btn-group">
+            <input type="submit" name='submit' class="btn btn-default btn-sm " value='upvoted'/>
+            <input type="hidden" name="answer_id" value="{{answer.pk}}" />
+            <button type="button" class="btn btn-default btn-sm disabled ">{{answer.upvotes}}</button>
+          </div>
+          {% else %}
+          <div class="btn-group">
+            <input class='btn btn-danger btn-sm' name='submit' type='submit' value='upvote'/>
+            <input type="hidden" name="answer_id" value="{{answer.pk}}" />
+            <button class="btn btn-danger btn-sm disabled">{{answer.upvotes}}</button>
+          </div>
+          {% endif %}
+    </form>
+</div> 
     <hr>
   </div>
 </div>
@@ -112,16 +133,33 @@
 {%for answer in JustAobjectslist %}  
 <br>
 <div class="row">
-  <div class="col-md-6 col-md-offset-2">
-    <h2>{{answer.question}}</h2>
+  <div class="col-md-6 bg-warning img-rounded col-md-offset-2">
+    <a href="/write/{{answer.question.pk}}"><h2>{{answer.question}}</h2></a>
     <div class="col-xs-2 col-sm-2 bg-primary img-rounded"> 
     {{answer.author}}
     </div>
     <br>
     <br>
-    {{answer}}
-    <hr style="width: 100%; color: black; height: 1px; background-color:black;">
-  </div>
+    {{answer}}<br><br>
+<div class="col-md-3 ">
+    <form method='POST' action=''>
+          {% csrf_token %}
+          {% if answer in check_upvoted_already  %}
+          <div class="btn-group">
+            <input type="submit" name='submit' class="btn btn-default btn-sm " value='upvoted'/>
+            <input type="hidden" name="answer_id" value="{{answer.pk}}" />
+            <button type="button" class="btn btn-default btn-sm disabled ">{{answer.upvotes}}</button>
+          </div>
+          {% else %}
+          <div class="btn-group">
+            <input class='btn btn-danger btn-sm' name='submit' type='submit' value='upvote'/>
+            <input type="hidden" name="answer_id" value="{{answer.pk}}" />
+            <button class="btn btn-danger btn-sm disabled">{{answer.upvotes}}</button>
+          </div>
+          {% endif %}
+    </form>
+</div> 
+</div>
 </div>
 {%endfor%}
 

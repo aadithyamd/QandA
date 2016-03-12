@@ -15,10 +15,10 @@ from django.db.models import Q
 @login_required 
 def home(request):
 	if request.user.is_authenticated():
-	 	if len(Customuser.objects.filter(username=request.user.username))==1:
-	 		Cuser = Customuser.objects.get(username=request.user.username)
-	 		Cuser.last_login = now()
-	 		return HttpResponseRedirect("/write")
+		if len(Customuser.objects.filter(username=request.user.username))==1:
+			Cuser = Customuser.objects.get(username=request.user.username)
+			Cuser.last_login = now()
+			return HttpResponseRedirect("/write")
 	location = "/"
 	form = AuthenticationForm(request.POST)
 	context ={  
@@ -80,9 +80,10 @@ def listquestions(request):
 			else:
 				category = 0
 				return HttpResponse({category}, content_type ="application/text")
-
-		form = add_Question_Form(data=request.POST)
-		print form.is_valid()
+		form = add_Question_Form(request.POST,request.FILES)
+		# new_file = UploadFile(file = request.FILES['file'])
+		# new_file.save()
+		# print form.is_valid()
 		#if form.is_valid():
 		#	questionform = questionform.save(commit=False)
 		category1 = request.POST.get("category1","") ## Dangerous
@@ -192,6 +193,7 @@ def detail(request, question_id):
 	form = add_Answer_Form()
 	return render(request, 'detail.html', {"template_title":title,"answer":answer,
 			'form':form,'question': question,'check_upvoted_already': current_users_upvoted_answers })
+
 @login_required
 def read(request):
 	if request.user.is_superuser:
@@ -225,7 +227,8 @@ def read(request):
 			vote.save()
 		return HttpResponseRedirect('/read')
 	#print Cuser.category
-	if request.POST:					
+	if request.POST:
+		print request.POST					
 		if Cuser.category is None:
 			a = []
 			a.append(int(request.POST.get("category","")))
@@ -294,7 +297,7 @@ def read(request):
 	LatestothersAofUobjects = list(set(LatestothersAofUobjects))
 
 	print "listing all answers by upvote order"
-	JustAobjects = Answer.objects.all().order_by('upvotes')
+	JustAobjects = Answer.objects.all().order_by('-upvotes')
 	#ques = answer.question
 	#question = Question.objects.filter(pk=question_id)
 	return render(request,'read.html',{"check_upvoted_already":current_users_upvoted_answers,"LatestAobjectslist":LatestAobjects,"LatestQobjectslist":LatestQobjects,
