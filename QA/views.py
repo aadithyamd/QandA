@@ -12,6 +12,11 @@ import ast
 from datetime import timedelta
 from django.utils.timezone import now
 from django.db.models import Q
+
+# For adding a page
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 @login_required 
 def home(request):
 	if request.user.is_authenticated():
@@ -115,10 +120,27 @@ def listquestions(request):
 		return HttpResponseRedirect('/write')
 	else:
 		form = add_Question_Form()
-	qlist = Question.objects.all()
+	qn_list = Question.objects.all()
 	c = Categories.objects.all()  #change
+
+
+	############## Paginator Code ###################
+
+	paginator = Paginator(qn_list, 10) # Show 25 contacts per page
+
+	page = request.GET.get('page')
+	try:
+		qns = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		qns = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		qns = paginator.page(paginator.num_pages)
+
+
 	context = {
-		"list":qlist,
+		"list":qns,
 		"form":form,
 		"categorylist":c
 	}

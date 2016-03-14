@@ -120,8 +120,33 @@
 	</div>
 </div>
 {% endfor %}
+
+
 {% endblock %}
 {% block home_container %}
+{% endblock %}
+
+{% block read_container %}
+
+<!-- Pagination Code -->
+<div class="container text-center">
+<div class="pagination">
+    <span class="step-links">
+        {% if list.has_previous %}
+            <a href="?page={{ list.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ list.number }} of {{ list.paginator.num_pages }}.
+        </span>
+
+        {% if list.has_next %}
+            <a href="?page={{ list.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+
 {% endblock %}
 {% block script_container %}
 <script type="text/javascript">
