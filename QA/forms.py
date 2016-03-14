@@ -54,7 +54,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = Customuser
-        fields = ("username","email","first_name","is_staff")
+        fields = ("username","email","first_name","department")
 
 
     def clean_password2(self):
@@ -112,3 +112,11 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = Customuser
         fields = ('categories',)
+
+class CustomuserAdminForm(forms.ModelForm):
+
+    class Meta:
+        model = Customuser
+        fields = ("username","email","first_name","last_name",
+                'department','groups','is_active','is_staff','is_superuser')
+#       fields = ['username','password','verify,'first_name','last_name','email','batch',]

@@ -28,16 +28,7 @@
   </div>
 {% endfor %}
 {% endblock %}
-{% block login %}
-  <div class="col-md-12 ">
 
-    <form method='POST' action=''>
-    {% csrf_token %}
-  		{{ form | crispy }}
-  		<input class='btn btn-primary' name='submit' type='submit' value='Add Answer'/>
-    </form>
-  </div>
-{% endblock %}
 {% block answer_container %}
 {% for i in answer %}
   <br>
@@ -84,4 +75,27 @@
   </div>
 
 {% endfor %}
+{% endblock %}
+
+{% block home_container %}
+<br>
+{% endblock %}
+
+{% block read_container %}
+
+<!-- Add answer form -->
+<br>
+<div class="container">
+  <div class="jumbotron">
+    <div class="row">
+       <div class="col-md-12 ">
+        <form method='POST' action=''>
+        {% csrf_token %}
+          {{ form | crispy }}
+          <input class='btn btn-primary' name='submit' type='submit' value='Add Answer'/>
+        </form>
+      </div>
+    </div>
+  </div> <!-- /container -->
+</div>
 {% endblock %}
