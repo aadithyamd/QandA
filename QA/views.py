@@ -137,8 +137,8 @@ def detail(request, question_id):
 	for i in current_users_upvoted_content:
 		current_users_upvoted_answers.append(i.answer)
 	title = "Question is "
-	author = request.user
-	print request.POST
+	author = Customuser.objects.get(username=request.user.username)
+	#print request.POST
 	# upvote submission
 	if request.method == 'POST' and (request.POST.get("submit","") == "upvote" or request.POST.get("submit","") == "upvoted"): 
 		#form = add_Answer_Form(request.POST)
@@ -160,12 +160,24 @@ def detail(request, question_id):
 			answer.save()
 			vote.save()
 		return HttpResponseRedirect('/write/%s' % str(question_id))
+
+#  Code to delete answer on clicking delete button
+
 	if request.method == 'POST' and request.POST.get("submit","") == "delete":
 		answer_id = request.POST.get("answer_id","")
 		print answer_id
 		answer = Answer.objects.get(pk=answer_id)
 		answer.delete()
 		return HttpResponseRedirect('/write/%s' % str(question_id))
+
+#  Code to delete Question on clicking delete button
+
+	if request.method == 'POST' and request.POST.get("submit","") == "Delete Question":
+		question_id = request.POST.get("question_id","")
+		print question_id
+		question = Question.objects.get(pk=question_id)
+		question.delete()
+		return HttpResponseRedirect('/write/')
 
 	if request.method == 'POST' and request.POST.get("submit","") == "Add Answer":
 		form = add_Answer_Form(data=request.POST)

@@ -39,7 +39,7 @@ class Answer(models.Model):
 	answer_text = models.TextField(blank=False,null=True)
 	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
 	question = models.ForeignKey(Question)
-	author = models.ForeignKey(User)
+	author = models.ForeignKey(Customuser)
 	upvotes = models.IntegerField(default=0)
 	faculty_upvote = models.IntegerField(default=0)
 	verify = models.BooleanField(default=False)

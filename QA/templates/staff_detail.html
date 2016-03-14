@@ -3,12 +3,25 @@
 {% block question_container %}
 {% for i in question %}
 <div class="container">
-	<div class="jumbotron">
- <a class="lead" href="{{i.pk}}">{{i.question_text}}<br></a><br>
- {% if i.upload = True %}
-<a href="{{i.upload.url}}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>  Uploaded File</a>
-{% endif %}
-</div>
+  <div class="jumbotron">
+    <a class="lead" href="{{i.pk}}">{{i.question_text}}<br></a><br>
+    <div class="col-md-1 bg-primary img-rounded text-center"> 
+      {{i.author}} 
+    </div>
+
+    <div class="col-md-1 ">
+
+      <form method='POST' onsubmit="return confirm('Do you really want to delete this Question?\n It will remove all its answers.');" action=''>
+        {% csrf_token %}
+        <input class="btn btn-xs btn-warning" name='submit' type='submit' value='Delete Question'></input>
+        <input type="hidden" name="question_id" value="{{i.pk}}" />
+      </form>
+    </div>
+
+    {% if i.upload = True %}
+      <a href="{{i.upload.url}}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>  Uploaded File</a>
+    {% endif %}
+  </div>
 </div>
 {% endfor %}
 {% endblock %}
