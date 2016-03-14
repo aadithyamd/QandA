@@ -80,7 +80,7 @@ def listquestions(request):
 			else:
 				category = 0
 				return HttpResponse({category}, content_type ="application/text")
-		form = add_Question_Form(request.POST,request.FILES)
+		form = add_Question_Form(request.POST,request.FILES,)
 		# new_file = UploadFile(file = request.FILES['file'])
 		# new_file.save()
 		# print form.is_valid()
@@ -101,14 +101,17 @@ def listquestions(request):
 		category_object.append(None)
 		category_object.append(None)
 		category_object.append(None)
-		print category_object
+		#print category_object
 		form.category1 = category_object[0]
 		form.category2 = category_object[1]
 		form.category3 = category_object[2]
 		form.category4 = category_object[3]
 		form.category5 = category_object[4]
+		print "the form validity",form.is_valid
 		if form.is_valid():
-			form.save(commit=True)
+			f = form.save(commit=False)
+			f.author=Customuser.objects.get(username=request.user.username)
+			f.save()
 		return HttpResponseRedirect('/write')
 	else:
 		form = add_Question_Form()

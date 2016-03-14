@@ -6,10 +6,25 @@ class Categories(models.Model):
 	categories = models.CharField(max_length=120, blank=False,null=False)
 	def __unicode__(self): 
 		return self.categories
+
+class Customuser(User):
+	category = models.CharField(max_length=300, blank=True,null=True)
+	categories = models.ManyToManyField(Categories,related_name='intrested_in')
+	DEPARTMENT = (
+	('CS', 'Computer Science'),
+	('EC', 'Electronics & Communication'),
+	('EE', 'Electrical & Electronics'),
+	('EB', 'Electronics & Biomedical'),
+	)
+
+	department = models.CharField(max_length=2, choices=DEPARTMENT)
+	def __str__(self):
+		return self.username
+
 class Question(models.Model):
 	question_text = models.TextField(blank=False,null=True)
 	follow = models.IntegerField(default=0)
-	author = models.ForeignKey(User)
+	author = models.ForeignKey(Customuser)
 	upload = models.FileField(upload_to='uploads/%Y/%m/%d/',blank=True,null=True) #if null is true then NULL is set if no value
 	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)# but in forms, set blank=True,form can be left. 
 	updated = models.DateTimeField(auto_now_add=False, auto_now=True) 
@@ -36,16 +51,3 @@ class Upvote(models.Model):
 	answer = models.ForeignKey(Answer)
 	question = models.ForeignKey(Question,default=1)
 
-class Customuser(User):
-	category = models.CharField(max_length=300, blank=True,null=True)
-	categories = models.ManyToManyField(Categories,related_name='intrested_in')
-	DEPARTMENT = (
-	('CS', 'Computer Science'),
-	('EC', 'Electronics & Communication'),
-	('EE', 'Electrical & Electronics'),
-	('EB', 'Electronics & Biomedical'),
-	)
-
-	department = models.CharField(max_length=2, choices=DEPARTMENT)
-	def __str__(self):
-		return self.username

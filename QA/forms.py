@@ -7,10 +7,12 @@ from django.utils.translation import ugettext_lazy as _
 class add_Question_Form(forms.ModelForm): # just a regular form
     question_text = forms.CharField(label=_("question_text"),
         widget=forms.Textarea({'cols': '40', 'rows': '5'}))
+    
     class Meta:
         model = Question
-        fields = "__all__" 
-        #fields = ('question_text',)
+        fields = ['question_text',  'upload', 
+        'category1','category2',
+        'category3','category4']
 
     def clean_text(self):
         if question_text == "":
