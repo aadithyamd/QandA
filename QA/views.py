@@ -161,23 +161,27 @@ def detail(request, question_id):
 			vote.save()
 		return HttpResponseRedirect('/write/%s' % str(question_id))
 
-#  Code to delete answer on clicking delete button
+	if request.user.is_authenticated:
+	#  Code to delete answer on clicking delete button
 
-	if request.method == 'POST' and request.POST.get("submit","") == "delete":
-		answer_id = request.POST.get("answer_id","")
-		print answer_id
-		answer = Answer.objects.get(pk=answer_id)
-		answer.delete()
-		return HttpResponseRedirect('/write/%s' % str(question_id))
+		if request.method == 'POST' and request.POST.get("submit","") == "delete":
+			answer_id = request.POST.get("answer_id","")
+			print answer_id
+			answer = Answer.objects.get(pk=answer_id)
+			if request.user.is_staff or request.user.username==answer.author.username: 
+				answer.delete()
+			return HttpResponseRedirect('/write/%s' % str(question_id))
 
-#  Code to delete Question on clicking delete button
+	#  Code to delete Question on clicking delete button
 
-	if request.method == 'POST' and request.POST.get("submit","") == "Delete Question":
-		question_id = request.POST.get("question_id","")
-		print question_id
-		question = Question.objects.get(pk=question_id)
-		question.delete()
-		return HttpResponseRedirect('/write/')
+		if request.method == 'POST' and request.POST.get("submit","") == "Delete Question":
+			
+			question_id = request.POST.get("question_id","")
+			print question_id
+			question = Question.objects.get(pk=question_id)
+			if request.user.is_staff or request.user.username==question.author.username:
+				question.delete()
+			return HttpResponseRedirect('/write/')
 
 	if request.method == 'POST' and request.POST.get("submit","") == "Add Answer":
 		form = add_Answer_Form(data=request.POST)
