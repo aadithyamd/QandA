@@ -121,12 +121,13 @@ def listquestions(request):
 	else:
 		form = add_Question_Form()
 	qn_list = Question.objects.all()
+	qn_count = Question.objects.all().count()
 	c = Categories.objects.all()  #change
 
 
 	############## Paginator Code ###################
-
-	paginator = Paginator(qn_list, 10) # Show 25 contacts per page
+	MaxQns = 10
+	paginator = Paginator(qn_list, MaxQns) # Show MaxQns contacts per page
 
 	page = request.GET.get('page')
 	try:
@@ -139,10 +140,17 @@ def listquestions(request):
 		qns = paginator.page(paginator.num_pages)
 
 
+	n1 = (qns.number-1)*MaxQns + 1
+	n2 = qns.number*MaxQns
+	if n2 > qn_count:
+		n2 = qn_count
+
 	context = {
 		"list":qns,
 		"form":form,
-		"categorylist":c
+		"categorylist":c,
+		"qn_count":qn_count,
+		"n1":n1,"n2":n2,
 	}
 	return render(request,"write.html",context)
 

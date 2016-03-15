@@ -32,6 +32,10 @@ class Question(models.Model):
 	category2 = models.ForeignKey(Categories,blank=True,null=True,related_name='category2')
 	category3 = models.ForeignKey(Categories,blank=True,null=True,related_name='category3')
 	category4 = models.ForeignKey(Categories,blank=True,null=True,related_name='category4')
+
+	class Meta:
+		ordering = ['follow','-timestamp']
+		
 	def __unicode__(self): 
 		return self.question_text
 
