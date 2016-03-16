@@ -37,9 +37,9 @@
       <div class="col-md-1 bg-primary img-rounded text-center"> 
         {{i.author}} 
       </div>
-      <div class="col-md-7 ">
-        {{i.answer_text}}
-      </div>
+      
+       <div class="col-md-7 ">  {{i.answer_text}} </div>
+
       <div class="col-md-2 ">
         <form method='POST' action=''>
         {% csrf_token %}
@@ -57,6 +57,7 @@
           </div>
         {% endif %}
         </form>
+        
   		</div> 
 
       {% if request.user.username == i.author.username %}
@@ -65,6 +66,15 @@
           <form method='POST' onsubmit="return confirm('Do you really want to delete the answer?');" action=''>
             {% csrf_token %}
             <input class="btn btn-xs btn-warning" name='submit' type='submit' value='delete'></input>
+            <input type="hidden" name="answer_id" value="{{i.pk}}" />
+          </form>
+        </div>
+
+        <div class="col-md-1 ">
+
+          <form method='POST' action=''>
+            {% csrf_token %}
+            <input class="btn btn-xs btn-warning" name='submit' type='submit' value='Modify'></input>
             <input type="hidden" name="answer_id" value="{{i.pk}}" />
           </form>
         </div>
@@ -93,8 +103,8 @@
         {% csrf_token %}
           {{ form | crispy }}
           <input class='btn btn-primary' name='submit' type='submit' value='Add Answer'/>
-        </form>
-      </div>
+        </form> 
+        </div>
     </div>
   </div> <!-- /container -->
 </div>

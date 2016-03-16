@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^write/(?P<question_id>[0-9]*)$',QA.views.detail ,name='question_id'), ##
     url(r'^logout/',QA.views.logout_view, name='logout'),
     url(r'^read/$', QA.views.read ,name='read'),
+    url(r'^search/$',QA.views.search,name='search'),
 ] 
 
 if settings.DEBUG:

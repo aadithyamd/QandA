@@ -49,8 +49,6 @@ def register_view(request):
 		print request.POST
 		print request.POST.get("categories","")
 		if form.is_valid():
-			# permission = Permission.objects.get(name='Can view poll')
-			# user.user_permissions.add(permission)
 			user = form.save(commit=False)
 			user.save()
 			return HttpResponseRedirect('/')
@@ -146,6 +144,7 @@ def listquestions(request):
 	}
 	return render(request,"write.html",context)
 
+
 @login_required
 def detail(request, question_id):
 	if request.user.is_superuser:
@@ -188,7 +187,6 @@ def detail(request, question_id):
 
 		if request.method == 'POST' and request.POST.get("submit","") == "delete":
 			answer_id = request.POST.get("answer_id","")
-			print answer_id
 			answer = Answer.objects.get(pk=answer_id)
 			if request.user.is_staff or request.user.username==answer.author.username: 
 				answer.delete()
@@ -234,6 +232,17 @@ def detail(request, question_id):
 	form = add_Answer_Form()
 	return render(request, 'detail.html', {"template_title":title,"answer":answer,
 			'form':form,'question': question,'check_upvoted_already': current_users_upvoted_answers })
+
+###########Code to modify answer###############
+	#if request.user.is_authenticated:
+	#	if request.method == 'POST' and request.POST.get("submit","") == "Add Answer":
+	#		answer_id = request.POST.get("answer_id","")
+	#		if request.user.is_staff or request.user.username==answer.author.username: 	
+	#			form = add_Answer_Form(data=request.POST)
+	#			if form.is_valid():
+	#				answer = Answer(answer_text=form.clean_text())
+	##				return HttpResponseRedirect('/write/%s' % str(question_id))
+
 
 @login_required
 def read(request):
@@ -343,3 +352,16 @@ def read(request):
 	#question = Question.objects.filter(pk=question_id)
 	return render(request,'read.html',{"check_upvoted_already":current_users_upvoted_answers,"LatestAobjectslist":LatestAobjects,"LatestQobjectslist":LatestQobjects,
 		"LatestothersAofUobjectslist":LatestothersAofUobjects,"categorylist":c,"JustAobjectslist":JustAobjects})
+
+
+@login_required
+def search(request):
+	 if request.user.is_authenticated():
+		if request.method == 'GET': # If the form is submitted
+			search_query = request.GET.get('search_box', "")
+			if (search_query==''):
+				return HttpResponseRedirect("/read")
+			else:
+				query=Question.objects.get(question_text__icontains=search_query)
+				p=query.id
+				return HttpResponseRedirect('/write/%s' % str(p))	
