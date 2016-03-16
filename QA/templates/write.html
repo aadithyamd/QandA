@@ -129,7 +129,7 @@
 {% block read_container %}
 
 <!-- Pagination Code -->
-<div class="container text-center">
+<div class="container text-right">
 <div class="pagination">
     <span class="step-links">
         {% if list.has_previous %}
@@ -137,7 +137,7 @@
         {% endif %}
 
         <span class="current">
-            Page {{ list.number }} of {{ list.paginator.num_pages }}.
+            {{ n1 }}-{{ n2 }} of {{ qn_count }}.
         </span>
 
         {% if list.has_next %}

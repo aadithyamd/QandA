@@ -119,12 +119,13 @@ def listquestions(request):
 	else:
 		form = add_Question_Form()
 	qn_list = Question.objects.all()
+	qn_count = Question.objects.all().count()
 	c = Categories.objects.all()  #change
 
 
 	############## Paginator Code ###################
-
-	paginator = Paginator(qn_list, 10) # Show 25 contacts per page
+	MaxQns = 10
+	paginator = Paginator(qn_list, MaxQns) # Show MaxQns contacts per page
 
 	page = request.GET.get('page')
 	try:
@@ -137,10 +138,17 @@ def listquestions(request):
 		qns = paginator.page(paginator.num_pages)
 
 
+	n1 = (qns.number-1)*MaxQns + 1
+	n2 = qns.number*MaxQns
+	if n2 > qn_count:
+		n2 = qn_count
+
 	context = {
 		"list":qns,
 		"form":form,
-		"categorylist":c
+		"categorylist":c,
+		"qn_count":qn_count,
+		"n1":n1,"n2":n2,
 	}
 	return render(request,"write.html",context)
 
@@ -354,14 +362,51 @@ def read(request):
 		"LatestothersAofUobjectslist":LatestothersAofUobjects,"categorylist":c,"JustAobjectslist":JustAobjects})
 
 
+class QnAns:
+	def __init__(self, qn):
+		self.qn = qn   
+	def __init__(self, ans):
+		self.ans = ans
+	def __init__(self, isans):
+		self.isans = isans
+	def __init__(self):
+	    self.isans = False
+
 @login_required
 def search(request):
-	 if request.user.is_authenticated():
+
+	if request.user.is_superuser:
+		return HttpResponseRedirect('/accounts/login')
+
+
+	if request.user.is_authenticated():
 		if request.method == 'GET': # If the form is submitted
 			search_query = request.GET.get('search_box', "")
 			if (search_query==''):
 				return HttpResponseRedirect("/read")
 			else:
-				query=Question.objects.get(question_text__icontains=search_query)
-				p=query.id
-				return HttpResponseRedirect('/write/%s' % str(p))	
+				query=Question.objects.filter(question_text__icontains=search_query)
+				ans = []
+				qa=[]
+				for i in query:
+					obj = QnAns()
+					obj.qn = i
+					a1 = Answer.objects.all().filter(question=i).order_by("-upvotes")
+					if a1:
+						ans.append(a1[0])
+						obj.ans = a1[0]
+						obj.isans = True
+					else:
+						obj.isans = False
+					qa.append(obj)
+
+				#ans = list(set(ans))
+				qa = list(set(qa))
+				qns = list(set(query))
+				context = {
+					"Questions":qns,
+					"Answers":ans,
+					"Object":qa
+				}
+				return render(request,'search.html',context)
+	

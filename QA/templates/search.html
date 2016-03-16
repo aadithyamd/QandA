@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block home_container %}
+{% endblock %}
+{% block read_container %}
+
+<div class="container">
+    
+  {%for i in Object %}  
+    <br>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-2 bg-info img-rounded">
+        <div >
+          <span class="glyphicon glyphicon-share-alt" aria-hidden="true"> </span>
+        </div>
+        <a href="/write/{{i.qn.pk}}"><h2>{{i.qn}}</h2></a>
+        <div class="col-xs-2 col-sm-2 bg-primary img-rounded"> 
+          {{i.qn.author}}
+        </div>
+        {% if i.isans %}
+          <br> <br>
+          {{ i.ans }}
+        {% endif %}
+        <br> <br>
+      </div>
+    </div>
+  {%endfor%}
+
+  {% if not Object %}
+
+    <br>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-2 bg-info img-rounded">
+        <a  <h1>No results found !</h1></a>
+      </div>
+    </div>
+
+  {% endif %}
+
+</div>
+{% endblock %}
