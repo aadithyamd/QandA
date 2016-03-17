@@ -1,0 +1,115 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>About Us</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/navbar-static-top.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'css/round-about.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+{% include 'navbar.html' %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Introduction Row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">About Us
+                    <small>It's Nice to Meet You!</small>
+                </h1>
+                <p>Academic Question-Answer Platform aims at provid-
+          ing teachers and students a comprehensive and inter-
+          active discussion platform. This project is an imple-
+          mentation of community based question answering
+          services. It has a provision for teachers and students
+          to post answers to an already existing question, add
+          comments, upvote an answer, search for previously
+          posted questions, upload files and allows verification
+          of answers by the teachers. The questions posted will
+          be categorised topic-wise</p>
+            </div>
+        </div>
+
+        <!-- Team Members Row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">Our Team</h2>
+            </div>
+        </div>
+            {% load static %}
+        <div class="row">
+            <div class="col-sm-6 text-center">
+                <img class="img-circle img-center" src="{% static 'img/200x200.png' %}" alt="">
+                <h3>Anupama Pradeep Kumar
+                    <small>Job Title</small>
+                </h3>
+                <p>What does this team member to? about her </p>
+            </div>
+            <div class="col-sm-6 text-center">
+                <img class="img-circle img-center" src="{% static 'img/200x200.png' %}" alt="">
+                <h3>Harish Anand
+                    <small>Job Title</small>
+                </h3>
+                <p>What does this team member to? about him </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-center">
+                <img class="img-circle img-center" src="{% static 'img/200x200.png' %}" alt="">
+                <h3>Aadithya MD
+                    <small>Job Title</small>
+                </h3>
+                <p>What does this team member to? about him </p>
+            </div>
+            <div class="col-sm-6 text-center">
+                <img class="img-circle  img-center" src="{% static 'img/200x200.png' %}" alt="">
+                <h3>Sanjana Bijoe
+                    <small>Job Title</small>
+                </h3>
+                <p>What does this team member to? about her </p>
+            </div>
+        </div>
+            <!-- <div class="col-lg-4 col-sm-6 text-center">
+                <img class="img-circle img-responsive img-center" src="{% static 'img/200x200.png' %}" alt="">
+                <h3>John Smith
+                    <small>Job Title</small>
+                </h3>
+                <p>What does this team member to? Keep it short! This is also a great spot for social links!</p>
+            </div> -->
+        </div>
+        <hr>
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+
+        <script src="{% static 'js/jquery.min.js' %}" type="text/javascript"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script>
+    <link href="{% static 'bootstrap-glyphicons.css' %}" rel="stylesheet">
+</body>
+
+</html>

@@ -17,7 +17,7 @@ from django.db.models import Q
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-@login_required 
+@login_required
 def home(request):
 	if request.user.is_authenticated():
 		if len(Customuser.objects.filter(username=request.user.username))==1:
@@ -26,7 +26,7 @@ def home(request):
 			return HttpResponseRedirect("/write")
 	location = "/"
 	form = AuthenticationForm(request.POST)
-	context ={  
+	context ={
 	"form":form,
 	"next": location
 	}
@@ -66,7 +66,7 @@ def logout_view(request):
 	auth.logout(request)
 	# Redirect to a success page.
 	return HttpResponseRedirect("/")
-	
+
 @login_required
 def listquestions(request):
 	if request.user.is_superuser:
@@ -156,10 +156,10 @@ def listquestions(request):
 @login_required
 def detail(request, question_id):
 	if request.user.is_superuser:
-		return HttpResponseRedirect('/accounts/login')
+		return HttpResponseRedirect('/about')
 
 	answer = Answer.objects.filter(question = question_id)
-	ques = Question.objects.get(pk=question_id) 
+	ques = Question.objects.get(pk=question_id)
 	question = Question.objects.filter(pk=question_id) #list obtained for iteration in template
 	current_users_upvoted_content = Upvote.objects.filter(upvoted_user=request.user)
 	current_users_upvoted_answers = []
@@ -169,7 +169,7 @@ def detail(request, question_id):
 	author = Customuser.objects.get(username=request.user.username)
 	#print request.POST
 	# upvote submission
-	if request.method == 'POST' and (request.POST.get("submit","") == "upvote" or request.POST.get("submit","") == "upvoted"): 
+	if request.method == 'POST' and (request.POST.get("submit","") == "upvote" or request.POST.get("submit","") == "upvoted"):
 		#form = add_Answer_Form(request.POST)
 		answer_id = request.POST.get("answer_id","")
 		answer = Answer.objects.get(pk=answer_id)
@@ -196,14 +196,14 @@ def detail(request, question_id):
 		if request.method == 'POST' and request.POST.get("submit","") == "delete":
 			answer_id = request.POST.get("answer_id","")
 			answer = Answer.objects.get(pk=answer_id)
-			if request.user.is_staff or request.user.username==answer.author.username: 
+			if request.user.is_staff or request.user.username==answer.author.username:
 				answer.delete()
 			return HttpResponseRedirect('/write/%s' % str(question_id))
 
 	#  Code to delete Question on clicking delete button
 
 		if request.method == 'POST' and request.POST.get("submit","") == "Delete Question":
-			
+
 			question_id = request.POST.get("question_id","")
 			print question_id
 			question = Question.objects.get(pk=question_id)
@@ -245,7 +245,7 @@ def detail(request, question_id):
 	#if request.user.is_authenticated:
 	#	if request.method == 'POST' and request.POST.get("submit","") == "Add Answer":
 	#		answer_id = request.POST.get("answer_id","")
-	#		if request.user.is_staff or request.user.username==answer.author.username: 	
+	#		if request.user.is_staff or request.user.username==answer.author.username:
 	#			form = add_Answer_Form(data=request.POST)
 	#			if form.is_valid():
 	#				answer = Answer(answer_text=form.clean_text())
@@ -255,7 +255,7 @@ def detail(request, question_id):
 @login_required
 def read(request):
 	if request.user.is_superuser:
-		return HttpResponseRedirect('/accounts/login')
+		return HttpResponseRedirect('/about')
 	question_id = 2
 	answer_id = 2
 	answer = Answer.objects.get(pk = answer_id)
@@ -266,7 +266,7 @@ def read(request):
 	Cuser = Customuser.objects.get(username=request.user.username)
 	print Cuser
 	c=Categories.objects.all()
-	if request.method == 'POST' and (request.POST.get("submit","") == "upvote" or request.POST.get("submit","") == "upvoted"): 
+	if request.method == 'POST' and (request.POST.get("submit","") == "upvote" or request.POST.get("submit","") == "upvoted"):
 		answer_id = request.POST.get("answer_id","")
 		answer = Answer.objects.get(pk=answer_id)
 		if Upvote.objects.filter(upvoted_user=Cuser,answer=answer).exists():
@@ -286,7 +286,7 @@ def read(request):
 		return HttpResponseRedirect('/read')
 	#print Cuser.category
 	if request.POST:
-		print request.POST					
+		print request.POST
 		if Cuser.category is None:
 			a = []
 			a.append(int(request.POST.get("category","")))
@@ -319,7 +319,7 @@ def read(request):
 		if (i.timestamp-Cuser.last_login) > onesecond:
 			LatestAobjects.append(i)
 	LatestAobjects = list(set(LatestAobjects))
-	
+
 
 	#Latest Questions
 	print "Latest Questions"
@@ -328,7 +328,7 @@ def read(request):
 		if (i.timestamp-Cuser.last_login) > onesecond:
 			LatestQobjects.append(i)
 	LatestQobjects = list(set(LatestQobjects))
-	
+
 
 	print "Latest new Answers in upvoted answer's question"
 	# User upvoted an answer that belonged to another category. New answer to that questions are shown
@@ -364,7 +364,7 @@ def read(request):
 
 class QnAns:
 	def __init__(self, qn):
-		self.qn = qn   
+		self.qn = qn
 	def __init__(self, ans):
 		self.ans = ans
 	def __init__(self, isans):
@@ -376,7 +376,7 @@ class QnAns:
 def search(request):
 
 	if request.user.is_superuser:
-		return HttpResponseRedirect('/accounts/login')
+		return HttpResponseRedirect('/about')
 
 
 	if request.user.is_authenticated():
@@ -409,4 +409,9 @@ def search(request):
 					"Object":qa
 				}
 				return render(request,'search.html',context)
-	
+
+def about(request):
+	return render(request,'about.html',{})
+
+def report(request):
+	return render(request,'development.html',{})

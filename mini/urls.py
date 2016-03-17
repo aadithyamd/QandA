@@ -8,7 +8,7 @@ urlpatterns = [
     # Examples:
     url(r'^$',QA.views.home, name='home'),
     url(r'^write/$',QA.views.listquestions, name='write'),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls),name='admin'),
     url(r'^accounts/login/$',login),
     url(r'^accounts/profile/$',QA.views.home, name='home'),
     url(r'^accounts/logout/$', logout),
@@ -17,9 +17,10 @@ urlpatterns = [
     url(r'^logout/',QA.views.logout_view, name='logout'),
     url(r'^read/$', QA.views.read ,name='read'),
     url(r'^search/$',QA.views.search,name='search'),
-] 
+    url(r'^about/$',QA.views.about,name='about'),
+    url(r'^report/$',QA.views.about,name='report'),
+]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    
