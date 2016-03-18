@@ -120,3 +120,8 @@ class CustomuserAdminForm(forms.ModelForm):
         fields = ("username","email","first_name","last_name",
                 'department','groups','is_active','is_staff','is_superuser')
 #       fields = ['username','password','verify,'first_name','last_name','email','batch',]
+
+################### Django classes ##########################
+
+
+

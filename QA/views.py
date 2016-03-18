@@ -13,6 +13,9 @@ from datetime import timedelta
 from django.utils.timezone import now
 from django.db.models import Q
 
+
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import UserChangeForm
 # For adding a page
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -23,7 +26,7 @@ def home(request):
 		if len(Customuser.objects.filter(username=request.user.username))==1:
 			Cuser = Customuser.objects.get(username=request.user.username)
 			Cuser.last_login = now()
-			return HttpResponseRedirect("/write")
+			return HttpResponseRedirect("/read")
 	location = "/"
 	form = AuthenticationForm(request.POST)
 	context ={
@@ -36,7 +39,7 @@ def home(request):
 		user = auth.authenticate(username=username, password=password)
 		if user is not None :
 			if user.is_superuser:
-				return render(request,"home.html",context)
+				return render(request,"about.html",context)
 			elif user.is_active:
 				auth.login(request, user)
 				return HttpResponseRedirect("/write")
@@ -70,7 +73,7 @@ def logout_view(request):
 @login_required
 def listquestions(request):
 	if request.user.is_superuser:
-		return HttpResponseRedirect('/accounts/login')
+		return HttpResponseRedirect('/report')
 	category_object = []
 	if request.method == 'POST':
 		print request.POST
@@ -156,7 +159,7 @@ def listquestions(request):
 @login_required
 def detail(request, question_id):
 	if request.user.is_superuser:
-		return HttpResponseRedirect('/about')
+		return HttpResponseRedirect('/report')
 
 	answer = Answer.objects.filter(question = question_id)
 	ques = Question.objects.get(pk=question_id)
@@ -376,7 +379,7 @@ class QnAns:
 def search(request):
 
 	if request.user.is_superuser:
-		return HttpResponseRedirect('/about')
+		return HttpResponseRedirect('/report')
 
 
 	if request.user.is_authenticated():
@@ -404,8 +407,6 @@ def search(request):
 				qa = list(set(qa))
 				qns = list(set(query))
 				context = {
-					"Questions":qns,
-					"Answers":ans,
 					"Object":qa
 				}
 				return render(request,'search.html',context)
@@ -413,5 +414,84 @@ def search(request):
 def about(request):
 	return render(request,'about.html',{})
 
+
+class DeptReport:
+	def __init__(self, dept):
+		self.dept = dept
+	def __init__(self, qn_count):
+		self.qn_count = qn_count
+	def __init__(self, ans_count):
+		self.ans_count = ans_count
+	def __init__(self, u_count):
+		self.u_count = u_count
+	def __init__(self,weight):
+	    self.weight = weight
+	def __init__(self):
+	    self.weight = 0 
+
+
+
 def report(request):
-	return render(request,'development.html',{})
+
+	dept = ['CS','EC','EE','EB']
+	val =[]
+
+	values=[]
+
+	
+	for d in dept:
+
+		rep=DeptReport()
+		rep.dept=d
+		cuser = Customuser.objects.filter(department=d)
+		rep.qn_count=0
+		rep.ans_count=0
+		rep.u_count=0
+		for i in cuser:   
+			rep.qn_count += Question.objects.filter(author=i).count()
+			rep.ans_count += Answer.objects.filter(author=i).count()
+			rep.u_count += Upvote.objects.filter(upvoted_user=i).count()
+
+		rep.weight = rep.ans_count + rep.qn_count + 0.5*rep.u_count 
+		val.append(rep)
+	#val = list(set(val))
+	val = sorted(val, key=lambda report: report.dept)
+	for v in val:
+	 	print v.dept,v.qn_count,v.ans_count,v.u_count,v.weight 
+	 	values.append(v.weight)
+	return render(request,'report.html',{'values':values,'val':val})
+
+def success(request):
+	return render(request,'success.html',{})
+
+from django.core.urlresolvers import reverse
+from django.template.response import TemplateResponse
+
+@csrf_protect
+@login_required
+def password_change(request,
+                    template_name='ChangePassword.html',
+                    post_change_redirect=None,
+                    password_change_form=PasswordChangeForm,
+                    current_app=None, extra_context=None):
+    if post_change_redirect is None:
+        post_change_redirect = reverse('QA.views.success')  #################### Change ############
+    if request.method == "POST":
+        form = password_change_form(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(post_change_redirect)
+    else:
+        form = password_change_form(user=request.user)
+    context = {
+        'form': form,
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+    return TemplateResponse(request, template_name, context,
+                            current_app=current_app)
+    if extra_context is not None:
+        context.update(extra_context)
+    return TemplateResponse(request, "ChangePassword.html", context,
+                            current_app=current_app)
+

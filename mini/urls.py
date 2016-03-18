@@ -18,7 +18,9 @@ urlpatterns = [
     url(r'^read/$', QA.views.read ,name='read'),
     url(r'^search/$',QA.views.search,name='search'),
     url(r'^about/$',QA.views.about,name='about'),
-    url(r'^report/$',QA.views.about,name='report'),
+    url(r'^report/$',QA.views.report,name='report'),
+    url(r'^password/$',QA.views.password_change,name='password'),
+    url(r'^success/$',QA.views.success,name='success'),    
 ]
 
 if settings.DEBUG:

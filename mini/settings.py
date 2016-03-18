@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'crispy_forms',
     'QA',
-    'broadcasts',
+    'chart_tools',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -64,7 +64,6 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'broadcasts.context_processors.broadcast_message',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
