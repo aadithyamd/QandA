@@ -10,23 +10,21 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 		<title>Report</title>
-		<meta name="description" content="Sticky Table Headers Revisited: Creating functional and flexible sticky table headers" />
-		<meta name="keywords" content="Sticky Table Headers Revisited" />
-		<meta name="author" content="Codrops" />
-		<link rel="shortcut icon" href="../favicon.ico">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" />
 		<link rel="stylesheet" type="text/css" href="{% static 'css/demo.css' %}"/>
 		<link rel="stylesheet" type="text/css" href="{% static 'css/component.css' %}"/>
 		<!--[if IE]>
   		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
+
+
 	</head>
 	<body>
 		<div class="container">
 			<!-- Top Navigation -->
 			
-			<div class="component">
-				<h2>Usage Report</h2>
+			<div class="component " >
+				<h2>Report from {{ from|date:"D d M Y" }} till {{ till|date:"D d M Y" }}</h2>
 				<table>
 					<thead>
 						<tr>
@@ -39,9 +37,12 @@
 					</thead>
 					<tbody>
 					{%for i in val %}  
-						<tr><td class="user-name">{{i.dept}}</td> <td class="user-number">{{i.qn_count}}</td><td class="user-number">{{i.ans_count}}</td><td class="user-number">{{i.u_count}}</td></tr>
-						
-						
+						<tr>
+							<th class="user-name" >{{i.dept}}</th> 
+							<td class="user-number">{{i.qn_count}}</td>
+							<td class="user-number">{{i.ans_count}}</td>
+							<td class="user-number">{{i.u_count}}</td>
+						</tr>
 					{% endfor %}  
 
 					</tbody>
@@ -65,16 +66,16 @@
 {% chart %}
      chxr=2,0,45,15 
      chxt=x,x,y,y
-     chxl=0:|CS|EB|EC|EE|1:|Department|3:|Weighted Usage
+     chxl=0:|CS|EB|EC|EE|1:|Department|3:|Usage
      chxp=1,50|3,50
      chbh=a
-     chs=440x220
+     chs=440x320
      cht=bvs
      chco=4D89F9
      chds=0,45
 
      chd=t:{{ values|join:',' }}
-     chtt=Horizontal+bar+chart
+     chtt=Bar+chart+showing+the+weighted+usage
 
 
 {% endchart %}

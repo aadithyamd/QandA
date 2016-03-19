@@ -54,4 +54,4 @@ class Upvote(models.Model):
 	upvoted_user = models.ForeignKey(User)
 	answer = models.ForeignKey(Answer)
 	question = models.ForeignKey(Question,default=1)
-
+	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False) # Reuired for report Generation

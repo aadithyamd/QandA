@@ -429,37 +429,49 @@ class DeptReport:
 	def __init__(self):
 	    self.weight = 0 
 
-
+def expandDept(argument):
+    switcher = {
+	    'CS': 'Computer Science',
+		'EC': 'Electronics & Communication',
+		'EE': 'Electrical & Electronics',
+		'EB': 'Electronics & Biomedical',
+    }
+    return switcher.get(argument, "Invalid")
 
 def report(request):
 
 	dept = ['CS','EC','EE','EB']
 	val =[]
-
 	values=[]
-
+	daysTill = now()
+	daysFrom = now() - timedelta(days=30)  # Value of timestam before 30 days from now 
 	
-	for d in dept:
 
+	# for each department compute
+	for d in dept:
 		rep=DeptReport()
 		rep.dept=d
-		cuser = Customuser.objects.filter(department=d)
-		rep.qn_count=0
-		rep.ans_count=0
-		rep.u_count=0
-		for i in cuser:   
-			rep.qn_count += Question.objects.filter(author=i).count()
-			rep.ans_count += Answer.objects.filter(author=i).count()
-			rep.u_count += Upvote.objects.filter(upvoted_user=i).count()
+		cuser = Customuser.objects.filter(department=d)   
+		rep.qn_count = Question.objects.filter(author__in=cuser).filter(timestamp__gte=daysFrom).count()
+		rep.ans_count = Answer.objects.filter(author__in=cuser).filter(timestamp__gte=daysFrom).count()
+		rep.u_count = Upvote.objects.filter(upvoted_user__in=cuser).filter(timestamp__gte=daysFrom).count()
 
 		rep.weight = rep.ans_count + rep.qn_count + 0.5*rep.u_count 
 		val.append(rep)
-	#val = list(set(val))
+	
+	# sort the list by the department name
 	val = sorted(val, key=lambda report: report.dept)
 	for v in val:
 	 	print v.dept,v.qn_count,v.ans_count,v.u_count,v.weight 
 	 	values.append(v.weight)
-	return render(request,'report.html',{'values':values,'val':val})
+
+	context = {'values':values,
+	 			'val':val,
+	 			'from':daysFrom,
+	 			'till':daysTill
+	 			}
+
+	return render(request,'report.html',context)
 
 def success(request):
 	return render(request,'success.html',{})

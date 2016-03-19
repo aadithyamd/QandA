@@ -1,23 +1,20 @@
 {% load staticfiles %}
 
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>About Us</title>
+  
+    <title>QandA Platform</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
-
     <link href="{% static 'css/navbar-static-top.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="{% static 'css/round-about.css' %}" rel="stylesheet">
@@ -25,8 +22,7 @@
 </head>
 
 <body>
-
-    <!-- Navigation -->
+<!-- Navigation -->
 {% include 'navbar.html' %}
 
     <!-- Page Content -->
@@ -36,7 +32,6 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">About Us
-                    <small>It's Nice to Meet You!</small>
                 </h1>
                 <p>Academic Question-Answer Platform aims at provid-
           ing teachers and students a comprehensive and inter-
@@ -62,14 +57,14 @@
             <div class="col-sm-6 text-center">
                 <img class="img-circle img-center" src="{% static 'img/200x200.png' %}" alt="">
                 <h3>Anupama Pradeep Kumar
-                    <small>Job Title</small>
+                    <small>Designer</small>
                 </h3>
                 <p>What does this team member to? about her </p>
             </div>
             <div class="col-sm-6 text-center">
                 <img class="img-circle img-center" src="{% static 'img/200x200.png' %}" alt="">
                 <h3>Harish Anand
-                    <small>Job Title</small>
+                    <small>Developer</small>
                 </h3>
                 <p>What does this team member to? about him </p>
             </div>
@@ -78,33 +73,25 @@
             <div class="col-sm-6 text-center">
                 <img class="img-circle img-center" src="{% static 'img/200x200.png' %}" alt="">
                 <h3>Aadithya MD
-                    <small>Job Title</small>
+                    <small>Developer</small>
                 </h3>
                 <p>What does this team member to? about him </p>
             </div>
             <div class="col-sm-6 text-center">
                 <img class="img-circle  img-center" src="{% static 'img/200x200.png' %}" alt="">
                 <h3>Sanjana Bijoe
-                    <small>Job Title</small>
+                    <small>Developer</small>
                 </h3>
                 <p>What does this team member to? about her </p>
             </div>
         </div>
-            <!-- <div class="col-lg-4 col-sm-6 text-center">
-                <img class="img-circle img-responsive img-center" src="{% static 'img/200x200.png' %}" alt="">
-                <h3>John Smith
-                    <small>Job Title</small>
-                </h3>
-                <p>What does this team member to? Keep it short! This is also a great spot for social links!</p>
-            </div> -->
         </div>
         <hr>
     </div>
     <!-- /.container -->
 
     <!-- jQuery -->
-
-        <script src="{% static 'js/jquery.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/jquery.min.js' %}" type="text/javascript"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
