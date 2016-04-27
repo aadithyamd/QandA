@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block question_container %}
+
+<div class="container">
+	
+	{% if not isAll %}
+		<h2>{{category}}</h2>
+	{% else %}
+		<h2>Category List</h2>
+		{%for i in category %}
+	      
+	        <a href="/categories/{{i.pk}}"><h4>{{i.categories}}</h4></a>
+	    
+  		{%endfor%}
+
+	{% endif %}	
+</div>
+
+{% if not isAll %}
+
+<div class="container">
+
+  {%for i in Object %}
+    <br>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-2 bg-info img-rounded">
+        <a href="/write/{{i.qn.pk}}"><h2>{{i.qn}}</h2></a>
+        <div class="col-xs-2 col-sm-2 bg-primary img-rounded word-wrap"> 
+          {{i.qn.author}}
+        </div>
+        {% if i.isans %}
+          <br> <br>
+          {{ i.ans }}
+        {% endif %}
+        <br> <br>
+      </div>
+    </div>
+  {%endfor%}
+
+  {% if not Object %}
+
+    <br>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-2 bg-info img-rounded">
+        <a  <h1>No questions found !</h1></a>
+      </div>
+    </div>
+
+  {% endif %}
+
+</div>
+{% endif %}
+
+{% endblock %}
+{% block home_container %}
+{% endblock %}
+
+{% block read_container %}
+{% if not isAll %}
+<!-- Pagination Code -->
+<div class="container text-right">
+<div class="pagination">
+    <span class="step-links">
+        {% if list.has_previous %}
+            <a href="?page={{ list.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            {{ n1 }}-{{ n2 }} of {{ qn_count }}.
+        </span>
+
+        {% if list.has_next %}
+            <a href="?page={{ list.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+{% endif %}
+{% endblock %}

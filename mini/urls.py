@@ -20,7 +20,8 @@ urlpatterns = [
     url(r'^about/$',QA.views.about,name='about'),
     url(r'^report/$',QA.views.report,name='report'),
     url(r'^password/$',QA.views.password_change,name='password'),
-    url(r'^success/$',QA.views.success,name='success'),    
+    url(r'^success/$',QA.views.success,name='success'),
+    url(r'^categories/(?P<category_id>[0-9]*)$',QA.views.category,name='category'),    
 ]
 
 if settings.DEBUG:

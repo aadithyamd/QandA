@@ -27,6 +27,9 @@ def home(request):
 			Cuser = Customuser.objects.get(username=request.user.username)
 			Cuser.last_login = now()
 			return HttpResponseRedirect("/read")
+	
+	if request.user.is_superuser:
+		return HttpResponseRedirect('/report')
 	location = "/"
 	form = AuthenticationForm(request.POST)
 	context ={
@@ -440,6 +443,8 @@ def expandDept(argument):
 
 def report(request):
 
+	if not request.user.is_authenticated:
+		return HttpResponseRedirect('/')
 	dept = ['CS','EC','EE','EB']
 	val =[]
 	values=[]
@@ -507,3 +512,81 @@ def password_change(request,
     return TemplateResponse(request, "ChangePassword.html", context,
                             current_app=current_app)
 
+
+
+@login_required
+def category(request,category_id):
+	if request.user.is_superuser:
+		return HttpResponseRedirect('/report')
+
+	if request.user.is_authenticated:
+		category_object = []
+		qn_list = []
+		isAll=False
+		cat=''
+		if category_id:
+			i=Categories.objects.get(pk=category_id)
+			cat=i.categories
+			qn_list += (Question.objects.filter(Q(Q(category1=i) |Q(category2=i)|Q(category3=i)|Q(category4=i))))
+			if request.method == 'GET': # If the form is submitted
+				search_query = request.GET.get('search_box', "")
+				if (search_query==''):
+					print "Empty Search"
+				else:
+					qn_list=[]
+					qn_list+=Question.objects.filter(question_text__icontains=search_query).filter(Q(Q(category1=i) |Q(category2=i)|Q(category3=i)|Q(category4=i)))
+					
+		else:
+			isAll=True
+			qn_list = Question.objects.all()
+			cat=Categories.objects.all().order_by("categories")
+		qn_count = len(qn_list)
+
+		ans = []
+		qa=[]
+		for i in qn_list:
+			obj = QnAns()
+			obj.qn = i
+			a1 = Answer.objects.all().filter(question=i).order_by("-upvotes")
+			if a1:
+				ans.append(a1[0])
+				obj.ans = a1[0]
+				obj.isans = True
+			else:
+				obj.isans = False
+			qa.append(obj)
+
+		#ans = list(set(ans))
+		qa = list(set(qa))
+		qns = list(set(qn_list))
+
+		############## Paginator Code ###################
+		MaxQns = 10
+		paginator = Paginator(qn_list, MaxQns) # Show MaxQns contacts per page
+
+		page = request.GET.get('page')
+		try:
+			qns = paginator.page(page)
+		except PageNotAnInteger:
+			# If page is not an integer, deliver first page.
+			qns = paginator.page(1)
+		except EmptyPage:
+			# If page is out of range (e.g. 9999), deliver last page of results.
+			qns = paginator.page(paginator.num_pages)
+
+
+		n1 = (qns.number-1)*MaxQns + 1
+		n2 = qns.number*MaxQns
+		if n2 > qn_count:
+			n2 = qn_count
+
+		context = {
+			"list":qns,
+			"Object":qa,
+			"qn_count":qn_count,
+			"n1":n1,"n2":n2,
+			"isAll":isAll,
+			"category":cat,
+			"isCat":True,
+		}
+		return render(request,"category.html",context)
