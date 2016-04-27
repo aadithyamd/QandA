@@ -5,8 +5,8 @@
 {% block read_container %}
 
 <div class="container">
-    
-  {%for i in Object %}  
+
+  {%for i in Object %}
     <br>
     <div class="row">
       <div class="col-md-6 col-md-offset-2 bg-info img-rounded">
@@ -14,7 +14,7 @@
           <span class="glyphicon glyphicon-share-alt" aria-hidden="true"> </span>
         </div>
         <a href="/write/{{i.qn.pk}}"><h2>{{i.qn}}</h2></a>
-        <div class="col-xs-2 col-sm-2 bg-primary img-rounded"> 
+        <div class="col-xs-2 col-sm-2 bg-primary img-rounded word-wrap"> 
           {{i.qn.author}}
         </div>
         {% if i.isans %}

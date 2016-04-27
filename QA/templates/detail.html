@@ -6,8 +6,8 @@
   	<div class="jumbotron">
       <a class="lead" href="{{i.pk}}">{{i.question_text}}<br></a><br>
 
-      <div class="col-md-1 bg-primary img-rounded text-center"> 
-        {{i.author}} 
+      <div class="col-md-1 bg-primary img-rounded text-center word-wrap">
+        {{i.author}}
       </div>
 
       {% if request.user.username == i.author.username %}
@@ -21,7 +21,7 @@
         </div>
       {% endif %}
 
-      {% if i.upload = True %}
+      {% if i.upload == True %}
         <a href="{{i.upload.url}}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>  Uploaded File</a>
       {% endif %}
     </div>
@@ -34,10 +34,10 @@
   <br>
   <div class="container img-rounded bg-info"><br>
 
-      <div class="col-md-1 bg-primary img-rounded text-center"> 
-        {{i.author}} 
+      <div class="col-md-1 bg-primary img-rounded text-center word-wrap">
+        {{i.author}}
       </div>
-      
+
        <div class="col-md-7 ">  {{i.answer_text}} </div>
 
       <div class="col-md-2 ">
@@ -57,8 +57,8 @@
           </div>
         {% endif %}
         </form>
-        
-  		</div> 
+
+  		</div>
 
       {% if request.user.username == i.author.username %}
         <div class="col-md-1 ">
@@ -103,7 +103,7 @@
         {% csrf_token %}
           {{ form | crispy }}
           <input class='btn btn-primary' name='submit' type='submit' value='Add Answer'/>
-        </form> 
+        </form>
         </div>
     </div>
   </div> <!-- /container -->

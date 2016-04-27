@@ -2,13 +2,13 @@
 {% load crispy_forms_tags %}
 {% block form_question %}
 <div class="container ">
-<form method='POST' enctype="multipart/form-data" action=''>		
+<form method='POST' enctype="multipart/form-data" action=''>
 	{% csrf_token %}
 	<div class='row'>
 	<div id='qtext' class='form-group col-md-6'>
 		Question Text*
 		<textarea class="textarea form-control" cols="40" id="id_question_text" name="question_text" rows="5"></textarea>
-	</div>	
+	</div>
 	<br>
 	<div>
 		Upload Document (if any)
@@ -18,8 +18,8 @@
 	<label>"Select atleast 1 category"</label>
 	<div class='row'>
 	<div class='form-group col-md-5' align="left">
-		
-		<select class="select form-control" id="id_category1" name="category1">			
+
+		<select class="select form-control" id="id_category1" name="category1">
 			<option value="0" selected="selected">Select a category</option>
 			{% for i in categorylist %}
 			<option value='{{ i.pk }}' >{{i}}</option>
@@ -96,7 +96,7 @@
 		<div class="col-md-offset-1 col-md-6">
   	  	<form method='POST' action=''>
   	  	{% csrf_token %}
-  	  	
+
   	  	<div class="form-group">
   	  	<label for="newcategory">Create a new category here.</label>
   	  	<input type="text" class="form-control" name='newcategory' id='newcategory'/>
@@ -114,7 +114,7 @@
 <div class="container">
 	<div class="jumbotron">
 		<a class="lead" href="{{i.pk}}">{{i.question_text}}<br></a>
-		<div class="col-xs-2 col-sm-2 bg-primary img-rounded"> 
+		<div class="col-xs-2 col-sm-2 bg-primary img-rounded word-wrap">
 	    {{i.author}}
 	    </div>
 	</div>
@@ -156,10 +156,10 @@ $('form').submit(function () {
     var name = $.trim($('#id_question_text').val());
 
     // Check if empty of not
-    if (name  === '') {
-        alert('Question_text is empty.');
-        //return false;
-    }
+    // if (name  === '') {
+    //     alert('Question_text is empty.');
+    //     //return false;
+    // }
 });</script>
 <script type="text/javascript">
 function getCookie(name) {
@@ -193,7 +193,7 @@ $('#createcategory').click(function(event) {
     text: data.category,
     value: data.cid,
 }));}
-       
+
        else{
        	$('#qtext').prepend("<div class='alert alert-danger'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Category already exists! </strong>Choose a category from the list.</div>");
       }
@@ -211,7 +211,7 @@ $('#createcategory').click(function(event) {
 //    	  data: {dropdown:1},
 //       success: function(data) {
 //          var s = data["list_of_jsonstuffs"]
-//          for (i = 0; i < s.length; i++) { 
+//          for (i = 0; i < s.length; i++) {
 //          // var option = document.createElement("option");
 //          // option.text = s[i];
 //          // option.value = i+1;

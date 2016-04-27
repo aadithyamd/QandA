@@ -11,7 +11,7 @@
             <form action="" method="POST">
                 {% csrf_token %}
             Add your favourite categories.
-            <select class="select form-control" id="id_category" name="category">        
+            <select class="select form-control" id="id_category" name="category">
             <option value="0" selected="selected">Select a category</option>
             {% for i in categorylist %}
             <option value='{{ i.pk }}' >{{i.categories}}</option>
@@ -21,7 +21,7 @@
             </form>
         </div>
     </div>
-{%for answer in LatestAobjectslist %}  
+{%for answer in LatestAobjectslist %}
 <br>
 <div class="row">
   <div class="col-md-6 col-md-offset-2 bg-info img-rounded">
@@ -29,8 +29,8 @@
     <span class="glyphicon glyphicon-share-alt" aria-hidden="true"> Recently Added Answer</span>
    </div>
     <a href="/write/{{answer.question.pk}}"><h2>{{answer.question}}</h2></a>
-    <div class="col-xs-2 col-sm-2 bg-primary img-rounded"> 
-    {{answer.author}}
+    <div class="col-xs-3 ">
+      <p class="bg-primary img-rounded word-wrap">{{answer.author}}</p>
     </div>
     <br>
     <br>
@@ -54,11 +54,11 @@
           </div>
           {% endif %}
         </form>
-        </div> 
+        </div>
   </div>
 </div>
 {%endfor%}
-{%for question in LatestQobjectslist %}  
+{%for question in LatestQobjectslist %}
 <br>
 <div class="row">
   <div class="col-md-6 col-md-offset-2 bg-danger img-rounded">
@@ -67,22 +67,22 @@
     </div>
     <a href="/write/{{question.pk}}"><h2>{{question.question_text}}</h2></a>
     {%if question.category1.categories %}
-    <div class="col-xs-2 col-sm-2 bg-info img-rounded"> 
+    <div class="col-xs-2 col-sm-2 bg-info img-rounded">
     {{question.category1.categories}}
     </div>
     {%endif%}
     {%if question.category2.categories %}
-    <div class="col-xs-2 col-sm-2 bg-info img-rounded"> 
+    <div class="col-xs-2 col-sm-2 bg-info img-rounded">
     {{question.category2.categories}}
     </div>
     {%endif%}
     {%if question.category3.categories %}
-    <div class="col-xs-2 col-sm-2 bg-info img-rounded"> 
+    <div class="col-xs-2 col-sm-2 bg-info img-rounded">
     {{question.category3.categories}}
     </div>
     {%endif%}
     {%if question.category4.categories %}
-    <div class="col-xs-2 col-sm-2 bg-info img-rounded"> 
+    <div class="col-xs-2 col-sm-2 bg-info img-rounded">
     {{question.category4.categories}}
     </div>
     {%endif%}
@@ -91,7 +91,7 @@
 </div>
 {%endfor%}
 
-{%for answer in LatestothersAofUobjectslist %}  
+{%for answer in LatestothersAofUobjectslist %}
 <br>
 <div class="row">
   <div class="col-md-6 col-md-offset-2">
@@ -99,8 +99,8 @@
     <span class="glyphicon glyphicon-share-alt" aria-hidden="true"> New answer to an already upvoted answer</span>
    </div>
     <a href="/write/{{answer.question.pk}}"><h2>{{answer.question}}</h2></a>
-    <div class="col-xs-2 col-sm-2 bg-primary img-rounded"> 
-    {{answer.author}}
+    <div class="col-xs-3 ">
+      <p class="bg-primary img-rounded word-wrap">{{answer.author}}</p>
     </div>
     <br>
     <br>
@@ -124,19 +124,19 @@
           </div>
           {% endif %}
     </form>
-</div> 
+</div>
     <hr>
   </div>
 </div>
 {%endfor%}
 
-{%for answer in JustAobjectslist %}  
+{%for answer in JustAobjectslist %}
 <br>
 <div class="row">
   <div class="col-md-6 bg-warning img-rounded col-md-offset-2">
     <a href="/write/{{answer.question.pk}}"><h2>{{answer.question}}</h2></a>
-    <div class="col-xs-2 col-sm-2 bg-primary img-rounded"> 
-    {{answer.author}}
+    <div class="col-xs-3 ">
+      <p class="bg-primary img-rounded word-wrap">{{answer.author}}</p>
     </div>
     <br>
     <br>
@@ -158,7 +158,7 @@
           </div>
           {% endif %}
     </form>
-</div> 
+</div>
 </div>
 </div>
 {%endfor%}
