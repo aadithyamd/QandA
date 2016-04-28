@@ -10,10 +10,12 @@
 		<textarea class="textarea form-control" cols="40" id="id_question_text" name="question_text" rows="5"></textarea>
 	</div>
 	<br>
+	{% if staff %}
 	<div>
-		Upload Document (if any)
+		Upload Document (if multiple files, compress and upload)
 		<input class="clearablefileinput" id="id_upload" name="upload" type="file">
 	</div>
+	{% endif %}
     </div>
 	<label>"Select atleast 1 category"</label>
 	<div class='row'>
@@ -117,7 +119,31 @@
 		<div class="col-xs-2 col-sm-2 bg-primary img-rounded word-wrap">
 	    {{i.author}}
 	    </div>
+	    <div>
+	    	<br><br><br>
+{% if i.category1 != None %}
+<div class="col-xs-3 ">
+      <h4 class="bg-danger img-rounded word-wrap"><a href="/categories/{{i.category1.pk}}">{{i.category1}}</a></h4>
+    </div>
+{% endif%}
+{% if i.category2 != None %}
+<div class="col-xs-3 ">
+      <h4 class="bg-danger img-rounded word-wrap"><a href="/categories/{{i.category2.pk}}">{{i.category2}}</a></h4>
+    </div>
+{% endif%}
+{% if i.category3 != None %}
+<div class="col-xs-3 ">
+      <h4 class="bg-danger img-rounded word-wrap"><a href="/categories/{{i.category3.pk}}">{{i.category3}}</a></h4>
+    </div>
+{% endif%}
+{% if i.question.categor4 != None %}
+<div class="col-xs-3 ">
+      <h4 class="bg-danger img-rounded word-wrap"><a href="/categories/{{i.category4.pk}}">{{i.category4}}</a></h4>
+    </div>
+{% endif%}
+</div>
 	</div>
+
 </div>
 {% endfor %}
 

@@ -4,7 +4,13 @@
 {% for i in question %}
 <div class="container">
   <div class="jumbotron">
-    <a class="lead" href="{{i.pk}}">{{i.question_text}}<br></a><br>
+    <a class="lead" href="{{i.pk}}">{{i.question_text}}</a><br>
+    {% if i.upload != "" %}
+      <a href="{{i.upload.url}}">
+      <span class="glyphicon glyphicon-file" aria-hidden="true"></span> Uploaded File 
+      </a>
+      {% endif %}
+      <br>
     <div class="col-md-1 bg-primary img-rounded text-center">
       {{i.author}}
     </div>
@@ -17,10 +23,6 @@
         <input type="hidden" name="question_id" value="{{i.pk}}" />
       </form>
     </div>
-
-    <!-- {% if i.upload == True %} -->
-      <a href="{{i.upload.url}}"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>  Uploaded File</a>
-    <!-- {% endif %} -->
   </div>
 </div>
 {% endfor %}

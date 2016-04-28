@@ -28,7 +28,7 @@
     <div >
     <span class="glyphicon glyphicon-share-alt" aria-hidden="true"> Recently Added Answer</span>
    </div>
-    <a href="/write/{{answer.question.pk}}"><h2>{{answer.question}}</h2></a>
+    <a href="/write/{{answer.question.pk}}"><h3>{{answer.question}}</h3></a>
     <div class="col-xs-3 ">
       <p class="bg-primary img-rounded word-wrap">{{answer.author}}</p>
     </div>
@@ -55,6 +55,28 @@
           {% endif %}
         </form>
         </div>
+        <div>
+{% if answer.question.category1 != None %}
+<div class="col-xs-3 ">
+      <p class="bg-success img-rounded word-wrap"><a href="/categories/{{answer.question.category1.pk}}">{{answer.question.category1}}</a></p>
+    </div>
+{% endif%}
+{% if answer.question.category2 != None %}
+<div class="col-xs-3 ">
+      <p class="bg-success img-rounded word-wrap"><a href="/categories/{{answer.question.category2.pk}}">{{answer.question.category2}}</a></p>
+    </div>
+{% endif%}
+{% if answer.question.category3 != None %}
+<div class="col-xs-3 ">
+      <p class="bg-success img-rounded word-wrap"><a href="/categories/{{answer.question.category3.pk}}">{{answer.question.category3}}</a></p>
+    </div>
+{% endif%}
+{% if answer.question.categor4 != None %}
+<div class="col-xs-3 ">
+      <p class="bg-success img-rounded word-wrap"><a href="/categories/{{answer.question.category4.pk}}">{{answer.question.category4}}</a></p>
+    </div>
+{% endif%}
+</div>
   </div>
 </div>
 {%endfor%}
@@ -65,7 +87,7 @@
     <div >
     <span class="glyphicon glyphicon-share-alt" aria-hidden="true"> Recently Added Question</span>
     </div>
-    <a href="/write/{{question.pk}}"><h2>{{question.question_text}}</h2></a>
+    <a href="/write/{{question.pk}}"><h3>{{question.question_text}}</h3></a>
     {%if question.category1.categories %}
     <div class="col-xs-2 col-sm-2 bg-info img-rounded">
     {{question.category1.categories}}
@@ -98,7 +120,7 @@
     <div >
     <span class="glyphicon glyphicon-share-alt" aria-hidden="true"> New answer to an already upvoted answer</span>
    </div>
-    <a href="/write/{{answer.question.pk}}"><h2>{{answer.question}}</h2></a>
+    <a href="/write/{{answer.question.pk}}"><h3>{{answer.question}}</h3></a>
     <div class="col-xs-3 ">
       <p class="bg-primary img-rounded word-wrap">{{answer.author}}</p>
     </div>
@@ -125,6 +147,28 @@
           {% endif %}
     </form>
 </div>
+<div>
+{% if answer.question.category1 != None %}
+<div class="col-xs-3 ">
+      <p class="bg-success img-rounded word-wrap"><a href="/categories/{{answer.question.category1.pk}}">{{answer.question.category1}}</a></p>
+    </div>
+{% endif%}
+{% if answer.question.category2 != None %}
+<div class="col-xs-3 ">
+      <p class="bg-success img-rounded word-wrap"><a href="/categories/{{answer.question.category2.pk}}">{{answer.question.category2}}</a></p>
+    </div>
+{% endif%}
+{% if answer.question.category3 != None %}
+<div class="col-xs-3 ">
+      <p class="bg-success img-rounded word-wrap"><a href="/categories/{{answer.question.category3.pk}}">{{answer.question.category3}}</a></p>
+    </div>
+{% endif%}
+{% if answer.question.categor4 != None %}
+<div class="col-xs-3 ">
+      <p class="bg-success img-rounded word-wrap"><a href="/categories/{{answer.question.category4.pk}}">{{answer.question.category4}}</a></p>
+    </div>
+{% endif%}
+</div>
     <hr>
   </div>
 </div>
@@ -134,13 +178,13 @@
 <br>
 <div class="row">
   <div class="col-md-6 bg-warning img-rounded col-md-offset-2">
-    <a href="/write/{{answer.question.pk}}"><h2>{{answer.question}}</h2></a>
+    <a href="/write/{{answer.question.pk}}"><h3>{{answer.question}}</h3></a>
     <div class="col-xs-3 ">
       <p class="bg-primary img-rounded word-wrap">{{answer.author}}</p>
     </div>
     <br>
-    <br>
-    {{answer}}<br><br>
+<br>
+<br><div>{{answer}}</div><br><br>
 <div class="col-md-3 ">
     <form method='POST' action=''>
           {% csrf_token %}
@@ -158,6 +202,28 @@
           </div>
           {% endif %}
     </form>
+</div>
+<div>
+{% if answer.question.category1 != None %}
+<div class="col-xs-3 ">
+      <p class="bg-success img-rounded word-wrap"><a href="/categories/{{answer.question.category1.pk}}">{{answer.question.category1}}</a></p>
+    </div>
+{% endif%}
+{% if answer.question.category2 != None %}
+<div class="col-xs-3 ">
+      <p class="bg-success img-rounded word-wrap"><a href="/categories/{{answer.question.category2.pk}}">{{answer.question.category2}}</a></p>
+    </div>
+{% endif%}
+{% if answer.question.category3 != None %}
+<div class="col-xs-3 ">
+      <p class="bg-success img-rounded word-wrap"><a href="/categories/{{answer.question.category3.pk}}">{{answer.question.category3}}</a></p>
+    </div>
+{% endif%}
+{% if answer.question.categor4 != None %}
+<div class="col-xs-3 ">
+      <p class="bg-success img-rounded word-wrap"><a href="/categories/{{answer.question.category4.pk}}">{{answer.question.category4}}</a></p>
+    </div>
+{% endif%}
 </div>
 </div>
 </div>

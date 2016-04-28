@@ -78,6 +78,9 @@ def listquestions(request):
 	if request.user.is_superuser:
 		return HttpResponseRedirect('/report')
 	category_object = []
+	staff_status=False
+	if request.user.is_staff:
+		staff_status=True
 	if request.method == 'POST':
 		print request.POST
 		if request.POST.get("submit","") == "Create Category":
@@ -150,6 +153,7 @@ def listquestions(request):
 		n2 = qn_count
 
 	context = {
+		"staff":staff_status,
 		"list":qns,
 		"form":form,
 		"categorylist":c,
@@ -362,6 +366,7 @@ def read(request):
 
 	print "listing all answers by upvote order"
 	JustAobjects = Answer.objects.all().order_by('-upvotes')
+
 	#ques = answer.question
 	#question = Question.objects.filter(pk=question_id)
 	return render(request,'read.html',{"check_upvoted_already":current_users_upvoted_answers,"LatestAobjectslist":LatestAobjects,"LatestQobjectslist":LatestQobjects,
@@ -388,10 +393,16 @@ def search(request):
 	if request.user.is_authenticated():
 		if request.method == 'GET': # If the form is submitted
 			search_query = request.GET.get('search_box', "")
-			if (search_query==''):
+			searched_category = request.GET.get('search_category', "")
+			print "Category Displaying" + searched_category
+			if (search_query=='' and searched_category ==''):
 				return HttpResponseRedirect("/read")
 			else:
-				query=Question.objects.filter(question_text__icontains=search_query)
+				query=''
+				if searched_category == '':
+					query=Question.objects.filter(question_text__icontains=search_query)
+				else:
+					query=Question.objects.filter(question_text__icontains=search_query).filter(Q(Q(category1=searched_category) |Q(category2=searched_category)|Q(category3=searched_category)|Q(category4=searched_category)))
 				ans = []
 				qa=[]
 				for i in query:
@@ -409,8 +420,10 @@ def search(request):
 				#ans = list(set(ans))
 				qa = list(set(qa))
 				qns = list(set(query))
+				c = Categories.objects.all()
 				context = {
-					"Object":qa
+					"Object":qa,
+					"categorylist":c,
 				}
 				return render(request,'search.html',context)
 
