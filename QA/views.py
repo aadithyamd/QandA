@@ -424,6 +424,7 @@ def search(request):
 				context = {
 					"Object":qa,
 					"categorylist":c,
+					"show_search":True,
 				}
 				return render(request,'search.html',context)
 

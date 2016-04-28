@@ -7,21 +7,21 @@
 <div class="container ">
 <div class="row">
 <form type="get" action="#" >
- <div class="input-group">
+ <div class="input-group col-md-6 col-md-offset-2">
     
      <input id="search_box" type="text" name="search_box"  placeholder="Search..." class="form-control" >
      <div class="input-group-btn">
          <button id="search_submit" class="btn btn-default" type="submit">Go</button>
      </div>
  </div>
-
+<div class="input-group col-md-6 col-md-offset-2">
  <select class="select form-control" id="search_category" name="search_category">
       <option value="0" selected="selected">Select a category</option>
       {% for i in categorylist %}
       <option value='{{ i.pk }}' >{{i}}</option>
       {% endfor %}
   </select>
-
+ </div>
 </form>
 </div>
 </div>
@@ -34,9 +34,7 @@
     <br>
     <div class="row">
       <div class="col-md-6 col-md-offset-2 bg-info img-rounded">
-        <div >
-          <span class="glyphicon glyphicon-share-alt" aria-hidden="true"> </span>
-        </div>
+        
         <a href="/write/{{i.qn.pk}}"><h2>{{i.qn}}</h2></a>
         <div class="col-xs-2 col-sm-2 bg-primary img-rounded word-wrap"> 
           {{i.qn.author}}
